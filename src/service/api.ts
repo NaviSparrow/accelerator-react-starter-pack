@@ -1,8 +1,10 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/dist/query/react';
 import {Guitar, GuitarsList} from '../types/guitar';
-import {APIRoute, getURL} from '../const/const';
+import {APIRoute, getURL, SortByOrder, SortByType, SortType} from '../const/const';
 
 const BACKEND_URL = 'https://accelerator-guitar-shop-api-v1.glitch.me/';
+const X_TOTAL_COUNT = 'X-Total-Count';
+const LIMIT_FOR_PRICE = 1;
 
 export const mainAPI = createApi({
   reducerPath: 'mainAPI',
@@ -24,12 +26,12 @@ export const mainAPI = createApi({
         }),
       }),
     fetchGuitarsTotalCount: build.query<{ response: GuitarsList, totalCount: number }, number> ( {
-      query: (limit: 1) => ({
+      query: (limit) => ({
         url: APIRoute.Guitars,
         params: {_limit: limit},
       }),
       transformResponse:(response:GuitarsList, meta) => (
-        {response, totalCount: Number(meta?.response?.headers.get('X-Total-Count'))}
+        {response, totalCount: Number(meta?.response?.headers.get(X_TOTAL_COUNT))}
       ),
     }),
     fetchAlikeGuitars: build.query<GuitarsList, string> ( {
@@ -41,7 +43,7 @@ export const mainAPI = createApi({
       query: ({type, stringCount}) => ({
         url: getURL(type, stringCount),
         params: {
-          _limit: 1, _sort: 'price', _order: 'asc',
+          _limit: LIMIT_FOR_PRICE, _sort: SortByType.get(SortType.Price), _order: SortByOrder.get(SortType.Ascend),
         },
       }),
     }),
@@ -49,7 +51,7 @@ export const mainAPI = createApi({
       query: ({type, stringCount}) => ({
         url: getURL(type, stringCount),
         params: {
-          _limit: 1, _sort: 'price', _order: 'desc',
+          _limit: LIMIT_FOR_PRICE, _sort: SortByType.get(SortType.Price), _order: SortByOrder.get(SortType.Descend),
         },
       }),
     }),

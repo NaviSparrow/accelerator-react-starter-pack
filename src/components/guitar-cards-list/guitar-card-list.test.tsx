@@ -50,7 +50,7 @@ describe('Component: GuitarCardList', () => {
     render(
       <Provider store={storeRef.store}>
         <Router history={history}>
-          <Route render={() => <GuitarCardsList guitarsList={fakeGuitarsList} changeURL={fakeChangeURL} viewState={fakeViewState}/>}>
+          <Route render={() => <GuitarCardsList guitarsList={fakeGuitarsList} onChangeURL={fakeChangeURL} viewState={fakeViewState}/>}>
           </Route>
         </Router>
       </Provider>);

@@ -17,7 +17,7 @@ describe('Component: Sort', () => {
     render(
       <Provider store={storeRef.store}>
         <Router history={history}>
-          <Route render={() => <Sort viewState={fakeViewState} changeURL={fakeChangeURL}/>}>
+          <Route render={() => <Sort viewState={fakeViewState} onChangeURL={fakeChangeURL}/>}>
           </Route>
         </Router>
       </Provider>);
@@ -36,7 +36,7 @@ describe('Component: Sort', () => {
     render(
       <Provider store={storeRef.store}>
         <Router history={history}>
-          <Route render={() => <Sort viewState={fakeViewState} changeURL={fakeChangeURL}/>}>
+          <Route render={() => <Sort viewState={fakeViewState} onChangeURL={fakeChangeURL}/>}>
           </Route>
         </Router>
       </Provider>);

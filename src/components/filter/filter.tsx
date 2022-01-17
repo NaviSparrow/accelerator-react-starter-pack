@@ -2,6 +2,11 @@ import {ChangeEvent, useCallback, useState} from 'react';
 import {
   QUERY_MAX_PRICE,
   QUERY_MIN_PRICE,
+  STRING_COUNT,
+  SEVEN_STRINGS,
+  SIX_STRINGS,
+  TYPE, FOUR_STRINGS,
+  TWELVE_STRINGS,
   StringFilter,
   deleteUncheckedStringCountFilter,
   deleteUncheckedTypeFilter,
@@ -11,13 +16,13 @@ import {
   isTwelveStringsDisabled,
   isSevenStringsDisabled,
   isAcousticChecked,
+  isUkuleleChecked,
   isFourStringsDisabled,
   isSevenStringsChecked,
   isSixStringsChecked,
   isSixStringsDisabled,
   isFourStringsChecked,
-  isElectricChecked,
-  isUkuleleChecked
+  isElectricChecked
 } from '../../const/const';
 import {StringCount, Type, ViewState} from '../catalog/catalog';
 import _ from 'lodash';
@@ -25,13 +30,14 @@ import {useFetchMaxPriceQuery, useFetchMinPriceQuery} from '../../service/api';
 
 type FilterProps = {
   viewState: ViewState;
-  changeURL: (updatedViewState: ViewState) => void;
+  onChangeURL: (updatedViewState: ViewState) => void;
 }
 
+const TIME_OUT = 800;
 let checkedTypeFilters:string[] = [];
 let checkedStringCountFilters:string[] = [];
 
-function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
+function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
   const [stateType, setStateType] = useState<Type>({acoustic: '', electric: '', ukulele: ''});
   const [stateStringCount, setStateStringCount] = useState<StringCount>({fourStrings: '', sixStrings: '', sevenStrings: '', twelveStrings: ''});
   const [stateMinimumPrice, setStateMinimumPrice] = useState<string | undefined>('');
@@ -46,22 +52,22 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
   const deletePriceFromURL = (field:string, value:string) => {
     if (value.length === 0 && field === QUERY_MIN_PRICE) {
       viewState = _.omit(viewState, QUERY_MIN_PRICE);
-      return changeURL(viewState);
+      return onChangeURL(viewState);
     }
     else if (value.length === 0 && field === QUERY_MAX_PRICE) {
       viewState = _.omit(viewState, QUERY_MAX_PRICE);
-      return changeURL(viewState);
+      return onChangeURL(viewState);
     }
   };
 
   const replaceMinPrice = () => {
     setStateMinimumPrice(minCatalogPrice);
-    return changeURL({...viewState, [QUERY_MIN_PRICE]: minCatalogPrice});
+    return onChangeURL({...viewState, [QUERY_MIN_PRICE]: minCatalogPrice});
   };
 
   const replaceMaxPrice = () => {
     setStateMaximumPrice(maxCatalogPrice);
-    return changeURL({...viewState, [QUERY_MAX_PRICE]: maxCatalogPrice});
+    return onChangeURL({...viewState, [QUERY_MAX_PRICE]: maxCatalogPrice});
   };
 
   const debouncedChangeURL = useCallback(
@@ -75,41 +81,41 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
       if (Number(value) > Number(maxCatalogPrice)) {
         return replaceMaxPrice();
       }
-      changeURL({...viewState, [field]: value});
-    }, 800)
+      onChangeURL({...viewState, [field]: value});
+    }, TIME_OUT)
     , [viewState, minCatalogPrice, maxCatalogPrice]);
 
   const addTypeFilter = (name: string) => {
     setStateType({...stateType, [name]: name});
     checkedTypeFilters = [...checkedTypeFilters, name];
-    changeURL({...viewState, 'type': stringifyCheckedTypeFilters(checkedTypeFilters)});
+    onChangeURL({...viewState, [TYPE]: stringifyCheckedTypeFilters(checkedTypeFilters)});
   };
 
   const deleteTypeFilter = (name: string) => {
     setStateType({...stateType, [name]: ''});
     checkedTypeFilters = deleteUncheckedTypeFilter(checkedTypeFilters, name);
     if (checkedTypeFilters.length === 0) {
-      viewState = _.omit(viewState, 'type');
-      changeURL(viewState);
+      viewState = _.omit(viewState, TYPE);
+      onChangeURL(viewState);
     } else {
-      changeURL({...viewState, 'type': stringifyCheckedTypeFilters(checkedTypeFilters)});
+      onChangeURL({...viewState, [TYPE]: stringifyCheckedTypeFilters(checkedTypeFilters)});
     }
   };
 
   const addStringCountFilter = (name:string, value: string) => {
     setStateStringCount({...stateStringCount, [name]: value});
     checkedStringCountFilters = [...checkedStringCountFilters, value];
-    changeURL({...viewState, 'stringCount': stringifyCheckedStringCountFilters(checkedStringCountFilters)});
+    onChangeURL({...viewState, [STRING_COUNT]: stringifyCheckedStringCountFilters(checkedStringCountFilters)});
   };
 
   const deleteStringCountFilter = (name: string, value: string) => {
     setStateStringCount({...stateStringCount, [name]: ''});
     checkedStringCountFilters = deleteUncheckedStringCountFilter(checkedStringCountFilters, value);
     if (checkedStringCountFilters.length === 0) {
-      viewState = _.omit(viewState, 'stringCount');
-      changeURL(viewState);
+      viewState = _.omit(viewState, STRING_COUNT);
+      onChangeURL(viewState);
     } else {
-      changeURL({...viewState, 'stringCount': stringifyCheckedStringCountFilters(checkedStringCountFilters)});
+      onChangeURL({...viewState, [STRING_COUNT]: stringifyCheckedStringCountFilters(checkedStringCountFilters)});
     }
   };
 
@@ -148,7 +154,7 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
             checked={isAcousticChecked(viewState)}
             onChange={({target}:ChangeEvent<HTMLInputElement>) => {
               if (stateType.acoustic?.length === 0) {
-                isFourStringsChecked(viewState) && deleteStringCountFilter('fourStrings', StringFilter.FourStrings);
+                isFourStringsChecked(viewState) && deleteStringCountFilter(FOUR_STRINGS, StringFilter.FourStrings);
                 addTypeFilter(target.name);
               } else {
                 deleteTypeFilter(target.name);
@@ -162,7 +168,7 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
             checked={isElectricChecked(viewState)}
             onChange={({target}:ChangeEvent<HTMLInputElement>) => {
               if (stateType.electric?.length === 0) {
-                isTwelveStringsChecked(viewState) && deleteStringCountFilter('twelveStrings', StringFilter.TwelveStrings);
+                isTwelveStringsChecked(viewState) && deleteStringCountFilter(TWELVE_STRINGS, StringFilter.TwelveStrings);
                 addTypeFilter(target.name);
               } else {
                 deleteTypeFilter(target.name);
@@ -176,9 +182,9 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
             checked={isUkuleleChecked(viewState)}
             onChange={({target}:ChangeEvent<HTMLInputElement>) => {
               if (stateType.ukulele?.length === 0) {
-                isSixStringsChecked(viewState) && deleteStringCountFilter('sixStrings', StringFilter.SixStrings);
-                isSevenStringsChecked(viewState) && deleteStringCountFilter('sevenStrings', StringFilter.SevenStrings);
-                isTwelveStringsChecked(viewState) && deleteStringCountFilter('twelveStrings', StringFilter.TwelveStrings);
+                isSixStringsChecked(viewState) && deleteStringCountFilter(SIX_STRINGS, StringFilter.SixStrings);
+                isSevenStringsChecked(viewState) && deleteStringCountFilter(SEVEN_STRINGS, StringFilter.SevenStrings);
+                isTwelveStringsChecked(viewState) && deleteStringCountFilter(TWELVE_STRINGS, StringFilter.TwelveStrings);
                 addTypeFilter(target.name);
               } else {
                 deleteTypeFilter(target.name);
@@ -196,8 +202,8 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
             disabled={isFourStringsDisabled(stateType)}
             onChange={({target}:ChangeEvent<HTMLInputElement>) => {
               stateStringCount.fourStrings?.length === 0
-                ? addStringCountFilter('fourStrings', target.name.charAt(0))
-                : deleteStringCountFilter('fourStrings', target.name.charAt(0));
+                ? addStringCountFilter(FOUR_STRINGS, target.name.charAt(0))
+                : deleteStringCountFilter(FOUR_STRINGS, target.name.charAt(0));
             }}
           />
           <label htmlFor="4-strings">4</label>
@@ -208,8 +214,8 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
             disabled={isSixStringsDisabled(stateType)}
             onChange={({target}:ChangeEvent<HTMLInputElement>) => {
               stateStringCount.sixStrings?.length === 0
-                ? addStringCountFilter('sixStrings', target.name.charAt(0))
-                : deleteStringCountFilter('sixStrings', target.name.charAt(0));
+                ? addStringCountFilter(SIX_STRINGS, target.name.charAt(0))
+                : deleteStringCountFilter(SIX_STRINGS, target.name.charAt(0));
             }}
           />
           <label htmlFor="6-strings">6</label>
@@ -220,8 +226,8 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
             disabled={isSevenStringsDisabled(stateType)}
             onChange={({target}:ChangeEvent<HTMLInputElement>) => {
               stateStringCount.sevenStrings?.length === 0
-                ? addStringCountFilter('sevenStrings', target.name.charAt(0))
-                : deleteStringCountFilter('sevenStrings', target.name.charAt(0));
+                ? addStringCountFilter(SEVEN_STRINGS, target.name.charAt(0))
+                : deleteStringCountFilter(SEVEN_STRINGS, target.name.charAt(0));
             }}
           />
           <label htmlFor="7-strings">7</label>
@@ -232,8 +238,8 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
             disabled={isTwelveStringsDisabled(stateType)}
             onChange={({target}:ChangeEvent<HTMLInputElement>) =>  {
               stateStringCount.twelveStrings?.length === 0
-                ? addStringCountFilter('twelveStrings', target.name.slice(0, 2))
-                : deleteStringCountFilter('twelveStrings', target.name.slice(0, 2));
+                ? addStringCountFilter(TWELVE_STRINGS, target.name.slice(0, 2))
+                : deleteStringCountFilter(TWELVE_STRINGS, target.name.slice(0, 2));
             }}
           />
           <label htmlFor="12-strings">12</label>

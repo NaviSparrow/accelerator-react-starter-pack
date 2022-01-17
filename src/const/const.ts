@@ -3,13 +3,22 @@ import {Type, ViewState} from '../components/catalog/catalog';
 export const INITIAL_GUITARS_COUNT = 9;
 export const QUERY_MIN_PRICE  = 'price_gte';
 export const QUERY_MAX_PRICE = 'price_lte';
+export const STRING_COUNT = 'stringCount';
+export const TYPE = 'type';
+export const SORT = 'sort';
+export const ORDER = 'order';
+export const FOUR_STRINGS = 'fourStrings';
+export const SIX_STRINGS = 'sixStrings';
+export const SEVEN_STRINGS = 'sevenStrings';
+export const TWELVE_STRINGS = 'twelveStrings';
 
 export enum APIRoute {
   Guitars = '/guitars',
 }
 
 export enum AppRoute {
-  Root = '/'
+  Root = '/',
+  Guitars = '/guitars',
 }
 
 export enum SortType {

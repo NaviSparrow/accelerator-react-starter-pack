@@ -5,10 +5,12 @@ type GuitarCardProps = {
   guitar: Guitar;
 };
 
+const STARS_COUNT = 5;
+
 function GuitarCard(props:GuitarCardProps): JSX.Element {
   const {guitar} = props;
   const {previewImg, name, price, rating} = guitar;
-  const starsArray = new Array(5).fill(null);
+  const starsArray = new Array(STARS_COUNT).fill(null);
   let count = 0;
   return (
     <div className="product-card"><img src={`./${previewImg}`} width="75" height="190" alt={name}/>
