@@ -132,4 +132,3 @@ export const getPaginationPages = (currentPage: string, pagesLimit: number):numb
 
 export const getPrevPageNumber = (paginationPages:number[]) => paginationPages[0] - 1;
 export const getNextPageNumber = (paginationPages:number[]) => paginationPages[paginationPages.length - 1] + 1;
-
