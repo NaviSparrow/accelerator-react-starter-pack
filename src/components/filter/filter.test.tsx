@@ -67,7 +67,7 @@ describe('Component: Filter', () => {
     render(
       <Provider store={storeRef.store}>
         <Router history={history}>
-          <Route render={() => <Filter viewState={viewState} changeURL={changeURL}/>}>
+          <Route render={() => <Filter viewState={viewState} onChangeURL={changeURL}/>}>
           </Route>
         </Router>
       </Provider>);
