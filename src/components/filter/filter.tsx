@@ -30,14 +30,14 @@ import {useFetchMaxPriceQuery, useFetchMinPriceQuery} from '../../service/api';
 
 type FilterProps = {
   viewState: ViewState;
-  changeURL: (updatedViewState: ViewState) => void;
+  onChangeURL: (updatedViewState: ViewState) => void;
 }
 
 const TIME_OUT = 800;
 let checkedTypeFilters:string[] = [];
 let checkedStringCountFilters:string[] = [];
 
-function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
+function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
   const [stateType, setStateType] = useState<Type>({acoustic: '', electric: '', ukulele: ''});
   const [stateStringCount, setStateStringCount] = useState<StringCount>({fourStrings: '', sixStrings: '', sevenStrings: '', twelveStrings: ''});
   const [stateMinimumPrice, setStateMinimumPrice] = useState<string | undefined>('');
@@ -52,22 +52,22 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
   const deletePriceFromURL = (field:string, value:string) => {
     if (value.length === 0 && field === QUERY_MIN_PRICE) {
       viewState = _.omit(viewState, QUERY_MIN_PRICE);
-      return changeURL(viewState);
+      return onChangeURL(viewState);
     }
     else if (value.length === 0 && field === QUERY_MAX_PRICE) {
       viewState = _.omit(viewState, QUERY_MAX_PRICE);
-      return changeURL(viewState);
+      return onChangeURL(viewState);
     }
   };
 
   const replaceMinPrice = () => {
     setStateMinimumPrice(minCatalogPrice);
-    return changeURL({...viewState, [QUERY_MIN_PRICE]: minCatalogPrice});
+    return onChangeURL({...viewState, [QUERY_MIN_PRICE]: minCatalogPrice});
   };
 
   const replaceMaxPrice = () => {
     setStateMaximumPrice(maxCatalogPrice);
-    return changeURL({...viewState, [QUERY_MAX_PRICE]: maxCatalogPrice});
+    return onChangeURL({...viewState, [QUERY_MAX_PRICE]: maxCatalogPrice});
   };
 
   const debouncedChangeURL = useCallback(
@@ -81,14 +81,14 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
       if (Number(value) > Number(maxCatalogPrice)) {
         return replaceMaxPrice();
       }
-      changeURL({...viewState, [field]: value});
+      onChangeURL({...viewState, [field]: value});
     }, TIME_OUT)
     , [viewState, minCatalogPrice, maxCatalogPrice]);
 
   const addTypeFilter = (name: string) => {
     setStateType({...stateType, [name]: name});
     checkedTypeFilters = [...checkedTypeFilters, name];
-    changeURL({...viewState, [TYPE]: stringifyCheckedTypeFilters(checkedTypeFilters)});
+    onChangeURL({...viewState, [TYPE]: stringifyCheckedTypeFilters(checkedTypeFilters)});
   };
 
   const deleteTypeFilter = (name: string) => {
@@ -96,16 +96,16 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
     checkedTypeFilters = deleteUncheckedTypeFilter(checkedTypeFilters, name);
     if (checkedTypeFilters.length === 0) {
       viewState = _.omit(viewState, TYPE);
-      changeURL(viewState);
+      onChangeURL(viewState);
     } else {
-      changeURL({...viewState, [TYPE]: stringifyCheckedTypeFilters(checkedTypeFilters)});
+      onChangeURL({...viewState, [TYPE]: stringifyCheckedTypeFilters(checkedTypeFilters)});
     }
   };
 
   const addStringCountFilter = (name:string, value: string) => {
     setStateStringCount({...stateStringCount, [name]: value});
     checkedStringCountFilters = [...checkedStringCountFilters, value];
-    changeURL({...viewState, [STRING_COUNT]: stringifyCheckedStringCountFilters(checkedStringCountFilters)});
+    onChangeURL({...viewState, [STRING_COUNT]: stringifyCheckedStringCountFilters(checkedStringCountFilters)});
   };
 
   const deleteStringCountFilter = (name: string, value: string) => {
@@ -113,9 +113,9 @@ function Filter ({viewState, changeURL}:FilterProps):JSX.Element {
     checkedStringCountFilters = deleteUncheckedStringCountFilter(checkedStringCountFilters, value);
     if (checkedStringCountFilters.length === 0) {
       viewState = _.omit(viewState, STRING_COUNT);
-      changeURL(viewState);
+      onChangeURL(viewState);
     } else {
-      changeURL({...viewState, [STRING_COUNT]: stringifyCheckedStringCountFilters(checkedStringCountFilters)});
+      onChangeURL({...viewState, [STRING_COUNT]: stringifyCheckedStringCountFilters(checkedStringCountFilters)});
     }
   };
 

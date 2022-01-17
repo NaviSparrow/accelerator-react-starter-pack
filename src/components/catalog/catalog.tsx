@@ -55,16 +55,16 @@ function Catalog ():JSX.Element {
     <div className="catalog">
       <Filter
         viewState={viewState}
-        changeURL={changeURL}
+        onChangeURL={changeURL}
       />
       <Sort
         viewState={viewState}
-        changeURL={changeURL}
+        onChangeURL={changeURL}
       />
       <GuitarCardsList
         guitarsList={guitarsList}
         viewState={viewState}
-        changeURL={changeURL}
+        onChangeURL={changeURL}
       />
     </div>
   );

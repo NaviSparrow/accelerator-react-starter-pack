@@ -14,7 +14,7 @@ import {ViewState} from '../catalog/catalog';
 type GuitarCardsListProps = {
   guitarsList?: GuitarsList;
   viewState: ViewState;
-  changeURL: (updatedViewState: ViewState) => void;
+  onChangeURL: (updatedViewState: ViewState) => void;
 }
 
 const DEFAULT_PAGES_LIMIT = 3;
@@ -22,7 +22,7 @@ const QUERY_LIMIT = 1;
 const FIRST_PAGE = '1';
 const ONE = 1;
 
-function GuitarCardsList({guitarsList, viewState, changeURL}:GuitarCardsListProps):JSX.Element {
+function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListProps):JSX.Element {
   const {data: guitarsCount} = useFetchGuitarsTotalCountQuery(QUERY_LIMIT);
   const [currentPage, setCurrentPage] = useState<string>(getInitialPageNumber(viewState));
   const [startPage, setStartPage] = useState<string>(FIRST_PAGE);
@@ -33,19 +33,19 @@ function GuitarCardsList({guitarsList, viewState, changeURL}:GuitarCardsListProp
 
   const changePageHandler = (pageNumber: number) => {
     setCurrentPage(pageNumber.toString());
-    changeURL({...viewState, page: pageNumber.toString()});
+    onChangeURL({...viewState, page: pageNumber.toString()});
   };
 
   const nextPageClickHandler = (nextPage: number) => {
     setCurrentPage(nextPage.toString());
     setStartPage(nextPage.toString());
-    changeURL({...viewState, page: nextPage.toString()});
+    onChangeURL({...viewState, page: nextPage.toString()});
   };
 
   const prevPageClickHandler = (prevPage: number) => {
     setCurrentPage(prevPage.toString());
     setStartPage((prevPage - DEFAULT_PAGES_LIMIT + ONE).toString());
-    changeURL({...viewState, page: prevPage.toString()});
+    onChangeURL({...viewState, page: prevPage.toString()});
   };
 
   return (
