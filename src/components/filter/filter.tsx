@@ -80,10 +80,10 @@ function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
       if (value.length === 0) {
         return deletePriceFromURL(field, value);
       }
-      if (Number(value) < Number(minCatalogPrice)) {
+      if (field === QUERY_MIN_PRICE && Number(value) < Number(minCatalogPrice)) {
         return replaceMinPrice();
       }
-      if (Number(value) > Number(maxCatalogPrice)) {
+      if (field === QUERY_MAX_PRICE && Number(value) > Number(maxCatalogPrice)) {
         return replaceMaxPrice();
       }
       onChangeURL({...viewState, [field]: value});
@@ -112,7 +112,6 @@ function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
     checkedStringCountFilters = [...checkedStringCountFilters, value];
     onChangeURL({...viewState, [STRING_COUNT]: stringifyCheckedStringCountFilters(checkedStringCountFilters)});
   };
-
   const deleteStringCountFilter = (name: string, value: string) => {
     setStateStringCount({...stateStringCount, [name]: ''});
     checkedStringCountFilters = deleteUncheckedStringCountFilter(checkedStringCountFilters, value);
@@ -137,7 +136,7 @@ function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
               onChange={({target}:ChangeEvent<HTMLInputElement>) => {
                 setStateMinimumPrice(target.value);
               }}
-              onBlur={() => stateMinimumPrice && debouncedChangeURL(QUERY_MIN_PRICE, stateMinimumPrice)}
+              onBlur={() => stateMinimumPrice ? debouncedChangeURL(QUERY_MIN_PRICE, stateMinimumPrice) : debouncedChangeURL(QUERY_MIN_PRICE, '')}
             />
           </div>
           <div className="form-input">
@@ -147,7 +146,7 @@ function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
               onChange={({target}:ChangeEvent<HTMLInputElement>) => {
                 setStateMaximumPrice(target.value);
               }}
-              onBlur={() => stateMaximumPrice && stateMinimumPrice && debouncedChangeURL(QUERY_MAX_PRICE, stateMaximumPrice)}
+              onBlur={() => stateMaximumPrice ? debouncedChangeURL(QUERY_MAX_PRICE, stateMaximumPrice) : debouncedChangeURL(QUERY_MAX_PRICE, '')}
             />
           </div>
         </div>
