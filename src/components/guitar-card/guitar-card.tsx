@@ -21,11 +21,14 @@ function GuitarCard(props:GuitarCardProps): JSX.Element {
             count++;
             return (
               <svg width="12" height="11" aria-hidden="true" key={nanoid()}>
-                <use xlinkHref={`#icon${count <= Math.floor(rating) ? '-full-' : '-'}star`}></use>
+                <use xlinkHref={`#icon${count <= Math.floor(rating) ? '-full-' : '-'}star`}>
+                </use>
               </svg>
             );
           })}
-          <span className="rate__count">9</span><span className="rate__message"></span>
+          <span className="rate__count">{guitar.comments.length}</span>
+          <span className="rate__message">
+          </span>
         </div>
         <p className="product-card__title">{name}</p>
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${price}`} ₽</p>

@@ -15,6 +15,7 @@ export const mainAPI = createApi({
         query: ({limit, sort, order, type, stringCount, minPrice, maxPrice, page}) => ({
           url: getURL(type, stringCount),
           params: {
+            _embed: 'comments',
             _limit: limit,
             _sort: sort,
             _order: order,
