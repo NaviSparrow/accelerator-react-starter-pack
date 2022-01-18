@@ -127,8 +127,11 @@ export const getInitialPageNumber = (viewState:ViewState) => viewState.page ? vi
 
 export const getPaginationPages = (currentPage: string, pagesLimit: number):number[] => {
   const start = Math.floor(((Number(currentPage) - 1) / pagesLimit) * pagesLimit);
-  return new Array(pagesLimit).fill(null).map(((value, index) => start + index + 1));
+  return new Array(3).fill(null).map(((value, index) => start + index + 1));
 };
 
 export const getPrevPageNumber = (paginationPages:number[]) => paginationPages[0] - 1;
 export const getNextPageNumber = (paginationPages:number[]) => paginationPages[paginationPages.length - 1] + 1;
+
+export const getStateMinimumPrice = (viewState: ViewState):string => viewState.price_gte ? viewState.price_gte : '';
+export const getStateMaximumPrice = (viewState: ViewState) => viewState.price_lte ? viewState.price_lte : '';

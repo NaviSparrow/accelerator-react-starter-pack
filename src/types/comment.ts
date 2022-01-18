@@ -17,3 +17,5 @@ export type Comment = {
   createAt: CreateAt;
   guitarId: GuitarId;
 };
+
+export type CommentList = Comment[];

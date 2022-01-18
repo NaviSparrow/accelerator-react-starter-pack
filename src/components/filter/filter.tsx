@@ -23,7 +23,9 @@ import {
   isSixStringsChecked,
   isSixStringsDisabled,
   isFourStringsChecked,
-  isElectricChecked
+  isElectricChecked,
+  getStateMinimumPrice,
+  getStateMaximumPrice
 } from '../../const/const';
 import {StringCount, Type, ViewState} from '../catalog/catalog';
 import _ from 'lodash';
@@ -38,14 +40,16 @@ const TIME_OUT = 800;
 let checkedTypeFilters:string[] = [];
 let checkedStringCountFilters:string[] = [];
 
+
 function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
   const [stateType, setStateType] = useState<Type>({acoustic: '', electric: '', ukulele: ''});
   const [stateStringCount, setStateStringCount] = useState<StringCount>({fourStrings: '', sixStrings: '', sevenStrings: '', twelveStrings: ''});
-  const [stateMinimumPrice, setStateMinimumPrice] = useState<string | undefined>('');
-  const [stateMaximumPrice, setStateMaximumPrice] = useState<string | undefined>('');
+  const [stateMinimumPrice, setStateMinimumPrice] = useState<string | undefined>(getStateMinimumPrice(viewState));
+  const [stateMaximumPrice, setStateMaximumPrice] = useState<string | undefined>(getStateMaximumPrice(viewState));
 
   const {data: minPrice} = useFetchMinPriceQuery({type: viewState.type, stringCount: viewState.stringCount});
   const {data: maxPrice} = useFetchMaxPriceQuery({type: viewState.type, stringCount: viewState.stringCount});
+
 
   const minCatalogPrice = minPrice && minPrice[0].price.toString();
   const maxCatalogPrice = maxPrice && maxPrice[0].price.toString();
@@ -132,8 +136,8 @@ function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
               value={stateMinimumPrice}
               onChange={({target}:ChangeEvent<HTMLInputElement>) => {
                 setStateMinimumPrice(target.value);
-                debouncedChangeURL(QUERY_MIN_PRICE, target.value);
               }}
+              onBlur={() => stateMinimumPrice && debouncedChangeURL(QUERY_MIN_PRICE, stateMinimumPrice)}
             />
           </div>
           <div className="form-input">
@@ -142,8 +146,8 @@ function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
               value={stateMaximumPrice}
               onChange={({target}:ChangeEvent<HTMLInputElement>) => {
                 setStateMaximumPrice(target.value);
-                debouncedChangeURL(QUERY_MAX_PRICE, target.value);
               }}
+              onBlur={() => stateMaximumPrice && stateMinimumPrice && debouncedChangeURL(QUERY_MAX_PRICE, stateMaximumPrice)}
             />
           </div>
         </div>

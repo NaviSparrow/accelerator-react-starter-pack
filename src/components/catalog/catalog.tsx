@@ -3,7 +3,8 @@ import Sort from '../sort/sort';
 import GuitarCardsList from '../guitar-cards-list/guitar-cards-list';
 import {useFetchGuitarsListQuery} from '../../service/api';
 import {useHistory, useLocation} from 'react-router-dom';
-import {INITIAL_GUITARS_COUNT, parseURLtoViewState, stringifyViewState} from '../../const/const';
+import {AppRoute, INITIAL_GUITARS_COUNT, parseURLtoViewState, stringifyViewState} from '../../const/const';
+import Loader from '../loader/loader';
 
 export type Type = {
   acoustic?: string;
@@ -33,13 +34,14 @@ function Catalog ():JSX.Element {
   const viewState:ViewState = parseURLtoViewState(urlQueryParams);
 
   const limit = INITIAL_GUITARS_COUNT;
+  const ERROR_TEXT = 'Произошла ошибка';
 
   const changeURL = (updatedViewState: ViewState) => {
-    const newLocation = {...location, pathname:'/guitars', search: stringifyViewState(updatedViewState)};
+    const newLocation = {...location, pathname:AppRoute.Guitars, search: stringifyViewState(updatedViewState)};
     history.push(newLocation);
   };
 
-  const {data: guitarsList} = useFetchGuitarsListQuery(
+  const {data: guitarsList, isLoading, isError, error} = useFetchGuitarsListQuery(
     {
       limit,
       sort: viewState.sort,
@@ -50,6 +52,16 @@ function Catalog ():JSX.Element {
       maxPrice: viewState.price_lte,
       page: viewState.page,
     });
+
+  if (isError) {
+    if (error && 'status' in error){
+      return <h1>{`${ERROR_TEXT} ${error.status}`}</h1>;
+    }
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="catalog">
