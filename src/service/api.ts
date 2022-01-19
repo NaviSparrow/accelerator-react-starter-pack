@@ -10,7 +10,7 @@ export const mainAPI = createApi({
   reducerPath: 'mainAPI',
   baseQuery: fetchBaseQuery({baseUrl: BACKEND_URL}),
   endpoints: (build) => ({
-    fetchGuitarsList: build.query<GuitarsList,
+    fetchGuitarsList: build.query<{ response: GuitarsList, totalCount: number },
       { limit: number; sort:string | undefined; order:string | undefined; type:string | undefined, stringCount:string | undefined; minPrice:string | undefined; maxPrice: string | undefined; page: string | undefined } > ( {
         query: ({limit, sort, order, type, stringCount, minPrice, maxPrice, page}) => ({
           url: getURL(type, stringCount),
@@ -25,16 +25,10 @@ export const mainAPI = createApi({
             _page: page,
           },
         }),
+        transformResponse:(response:GuitarsList, meta) => (
+          {response, totalCount: Number(meta?.response?.headers.get(X_TOTAL_COUNT))}
+        ),
       }),
-    fetchGuitarsTotalCount: build.query<{ response: GuitarsList, totalCount: number }, number> ( {
-      query: (limit) => ({
-        url: APIRoute.Guitars,
-        params: {_limit: limit},
-      }),
-      transformResponse:(response:GuitarsList, meta) => (
-        {response, totalCount: Number(meta?.response?.headers.get(X_TOTAL_COUNT))}
-      ),
-    }),
     fetchAlikeGuitars: build.query<GuitarsList, string> ( {
       query: (name?:string ) => ({
         url: name ? `${APIRoute.Guitars}?name_like=${name}` : `${APIRoute.Guitars}?name`,
@@ -61,7 +55,6 @@ export const mainAPI = createApi({
 
 export const {
   useFetchGuitarsListQuery,
-  useFetchGuitarsTotalCountQuery,
   useFetchAlikeGuitarsQuery,
   useFetchMinPriceQuery,
   useFetchMaxPriceQuery,
