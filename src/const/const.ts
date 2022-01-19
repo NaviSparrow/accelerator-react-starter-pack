@@ -1,4 +1,5 @@
 import {Type, ViewState} from '../components/catalog/catalog';
+import {Guitar, GuitarsList} from '../types/guitar';
 
 export const INITIAL_GUITARS_COUNT = 9;
 export const QUERY_MIN_PRICE  = 'price_gte';
@@ -135,3 +136,27 @@ export const getNextPageNumber = (paginationPages:number[]) => paginationPages[p
 
 export const getStateMinimumPrice = (viewState: ViewState):string => viewState.price_gte ? viewState.price_gte : '';
 export const getStateMaximumPrice = (viewState: ViewState) => viewState.price_lte ? viewState.price_lte : '';
+
+export const compareFunc = (guitarA:Guitar, guitarB:Guitar) => {
+  if (guitarA.name < guitarB.name) {
+    return -1;
+  }
+  if (guitarA.name > guitarB.name) {
+    return 1;
+  }
+  else {
+    return 0;
+  }
+};
+
+export const getSortedResult = (data:GuitarsList, searchTerm: string) => {
+  const matchGuitars: GuitarsList = [];
+  const notMatchGuitars:GuitarsList = [];
+  if (data) {
+    data.filter((item) =>
+      item.name.toLowerCase().indexOf(searchTerm.charAt(0).toLowerCase()) === 0
+        ? matchGuitars.push(item)
+        : notMatchGuitars.push(item));
+  }
+  return [...matchGuitars, ...notMatchGuitars.sort(compareFunc)];
+};
