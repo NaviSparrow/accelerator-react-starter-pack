@@ -1,6 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/dist/query/react';
 import {Guitar, GuitarsList} from '../types/guitar';
 import {APIRoute, getURL, SortByOrder, SortByType, SortType} from '../const/const';
+import {CommentList} from '../types/comment';
 
 const BACKEND_URL = 'https://accelerator-guitar-shop-api-v1.glitch.me/';
 const X_TOTAL_COUNT = 'X-Total-Count';
@@ -50,6 +51,16 @@ export const mainAPI = createApi({
         },
       }),
     }),
+    fetchProductInfo: build.query<Guitar, string | undefined> ({
+      query: (id: string | undefined) => ({
+        url: `/guitars/${id}`,
+      }),
+    }),
+    fetchProductComments: build.query<CommentList, string | undefined> ({
+      query: (id: string | undefined) => ({
+        url: `/guitars/${id}/comments`,
+      }),
+    }),
   }),
 });
 
@@ -58,4 +69,6 @@ export const {
   useFetchAlikeGuitarsQuery,
   useFetchMinPriceQuery,
   useFetchMaxPriceQuery,
+  useFetchProductInfoQuery,
+  useFetchProductCommentsQuery,
 } = mainAPI;
