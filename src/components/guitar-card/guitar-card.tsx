@@ -1,31 +1,21 @@
 import {Guitar} from '../../types/guitar';
-import {nanoid} from 'nanoid';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const/const';
+import Rating from '../rating/rating';
 
 type GuitarCardProps = {
   guitar: Guitar;
 };
 
-const STARS_COUNT = 5;
-
 function GuitarCard(props:GuitarCardProps): JSX.Element {
   const {guitar} = props;
-  const {previewImg, name, price, rating} = guitar;
-  const starsArray = new Array(STARS_COUNT).fill(null);
-  let count = 0;
+  const {previewImg, name, price, rating, id} = guitar;
+
   return (
     <div className="product-card"><img src={`./${previewImg}`} width="75" height="190" alt={name}/>
       <div className="product-card__info">
         <div className="rate product-card__rate" aria-hidden="true">
-          <span className="visually-hidden">Рейтинг:</span>
-          {starsArray.map((star) => {
-            count++;
-            return (
-              <svg width="12" height="11" aria-hidden="true" key={nanoid()}>
-                <use xlinkHref={`#icon${count <= Math.floor(rating) ? '-full-' : '-'}star`}>
-                </use>
-              </svg>
-            );
-          })}
+          <Rating guitarRating={rating}/>
           <span className="rate__count">{guitar.comments.length}</span>
           <span className="rate__message">
           </span>
@@ -33,7 +23,7 @@ function GuitarCard(props:GuitarCardProps): JSX.Element {
         <p className="product-card__title">{name}</p>
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${price}`} ₽</p>
       </div>
-      <div className="product-card__buttons"><a className="button button--mini" href="#">Подробнее</a>
+      <div className="product-card__buttons"><Link className="button button--mini" to={`${AppRoute.Guitars}/${id}`}>Подробнее</Link>
         <a className="button button--red button--mini button--add-to-cart" href="#">Купить</a>
       </div>
     </div>
