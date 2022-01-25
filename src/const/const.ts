@@ -39,6 +39,12 @@ export const SortByOrder = new Map([
   ['По убыванию', 'desc'],
 ]);
 
+export const GuitarType = new Map([
+  ['acoustic', 'Аккустическая'],
+  ['electric', 'Электрогитара'],
+  ['ukulele', 'Укулеле'],
+]);
+
 export enum TypeFilter {
   Acoustic = 'acoustic',
   Electric = 'electric',
