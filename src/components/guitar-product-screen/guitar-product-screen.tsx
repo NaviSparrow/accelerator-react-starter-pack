@@ -9,13 +9,14 @@ import {
   useFetchProductCommentsQuery,
   useFetchProductInfoQuery
 } from '../../service/api';
-import {AppRoute} from '../../const/const';
+import {
+  AppRoute,
+  isCommentsFetchHasError,
+  isProductFetchHasError
+} from '../../const/const';
 import Loader from '../loader/loader';
 
-const PRODUCT_INFO_ERROR_TEXT = 'При загрузки информации о товаре произошла ошибка';
-const COMMENTS_ERROR_TEXT = 'При загрузки отзывов о товаре произошла ошибка';
-
-function GuitarProductScreen():JSX.Element {
+function GuitarProductScreen(): JSX.Element {
   const {id} = useParams<{ id?: string }>();
 
   const {
@@ -30,23 +31,14 @@ function GuitarProductScreen():JSX.Element {
     error: commentsError,
   } = useFetchProductCommentsQuery(id);
 
-  if (isProductInfoError) {
-    if (productInfoError && 'status' in productInfoError) {
-      return <h1>{`${PRODUCT_INFO_ERROR_TEXT} ${productInfoError.status}`}</h1>;
-    }
-  }
-
-  if (isCommentsError) {
-    if (commentsError && 'status' in commentsError) {
-      return <h1>{`${COMMENTS_ERROR_TEXT} ${commentsError.status}`}</h1>;
-    }
-  }
+  isProductFetchHasError(productInfoError, isProductInfoError);
+  isCommentsFetchHasError(commentsError, isCommentsError);
 
   return (
     <>
       <Icons/>
       <div className="wrapper">
-        <Header />
+        <Header/>
         <main className="page-content">
           <div className="container">
             <h1 className="page-content__title title title--bigger">{productInfo && productInfo.name}</h1>
@@ -59,12 +51,12 @@ function GuitarProductScreen():JSX.Element {
               </li>
             </ul>
             {isInfoLoading
-              ? <Loader />
-              : productInfo && <ProductInfo productInfo={productInfo} />}
-            {productComments && <ReviewsList reviews={productComments} productInfo={productInfo} />}
+              ? <Loader/>
+              : productInfo && <ProductInfo productInfo={productInfo}/>}
+            {productComments && <ReviewsList reviews={productComments} productInfo={productInfo}/>}
           </div>
         </main>
-        <Footer />
+        <Footer/>
       </div>
     </>
   );
