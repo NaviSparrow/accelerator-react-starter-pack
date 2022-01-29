@@ -15,6 +15,7 @@ export const TWELVE_STRINGS = 'twelveStrings';
 
 export enum APIRoute {
   Guitars = '/guitars',
+  Comments = '/comments',
 }
 
 export enum AppRoute {
@@ -57,6 +58,14 @@ export enum StringFilter {
   SevenStrings = '7',
   TwelveStrings = '12',
 }
+
+export const reviewRating = {
+  5: 'Отлично',
+  4: 'Хорошо',
+  3: 'Нормально',
+  2: 'Плохо',
+  1: 'Ужасно',
+};
 
 export const getSort = (sort:string):string => SortByType.get(sort) as string;
 
