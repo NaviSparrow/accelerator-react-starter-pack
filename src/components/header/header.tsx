@@ -1,6 +1,10 @@
 import SearchBar from '../searchBar/searchBar';
+import {Link, useLocation} from 'react-router-dom';
+import {AppRoute} from '../../const/const';
 
 function Header(): JSX.Element {
+  const location = useLocation();
+
   return (
     <header className="header" id="header">
       <div className="container header__wrapper">
@@ -9,7 +13,7 @@ function Header(): JSX.Element {
         </a>
         <nav className="main-nav">
           <ul className="main-nav__list">
-            <li><a className="link main-nav__link link--current" href="#">Каталог</a>
+            <li><Link className={`link main-nav__link ${location.pathname === AppRoute.Root ? 'link--current' : ''}`} to={AppRoute.Root}>Каталог</Link>
             </li>
             <li><a className="link main-nav__link" href="#">Где купить?</a>
             </li>

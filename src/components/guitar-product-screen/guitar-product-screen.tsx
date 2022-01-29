@@ -61,7 +61,7 @@ function GuitarProductScreen():JSX.Element {
             {isInfoLoading
               ? <Loader />
               : productInfo && <ProductInfo productInfo={productInfo} />}
-            {productComments &&  <ReviewsList reviews={productComments} />}
+            {productComments && <ReviewsList reviews={productComments} productInfo={productInfo} />}
           </div>
         </main>
         <Footer />
