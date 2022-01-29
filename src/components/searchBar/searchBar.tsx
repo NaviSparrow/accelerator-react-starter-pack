@@ -5,12 +5,17 @@ import SearchResult from './searchResult';
 const TIME_OUT = 500;
 
 function SearchBar():JSX.Element {
-  const [searchTerm, setSearchTerm] = useState<string | undefined>();
+  const [searchTerm, setSearchTerm] = useState<string | undefined>('');
+  const [isResults, setIsResults] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, TIME_OUT);
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+    setIsResults(true);
     setSearchTerm(target.value);
   };
+
+  const openResults = () => setIsResults(true);
+  const closeResults = () => setIsResults(false);
 
   return (
     <div className="form-search">
@@ -31,10 +36,12 @@ function SearchBar():JSX.Element {
           value={searchTerm}
           onChange={handleInputChange}
           data-testid='search'
+          onFocus={openResults}
+          onBlur={closeResults}
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>
-      <SearchResult searchTerm={debouncedSearchTerm} />
+      {isResults && <SearchResult searchTerm={debouncedSearchTerm} isResults={isResults}/>}
     </div>
   );
 }

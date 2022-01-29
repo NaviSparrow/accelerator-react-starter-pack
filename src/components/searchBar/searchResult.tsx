@@ -5,9 +5,10 @@ import {useHistory} from 'react-router-dom';
 
 type SearchTermProps = {
   searchTerm: string;
+  isResults: boolean;
 };
 
-function SearchResult ({searchTerm}:SearchTermProps) {
+function SearchResult ({searchTerm, isResults}:SearchTermProps) {
   const [name, setName] = useState(searchTerm);
   const history = useHistory();
 
@@ -21,7 +22,7 @@ function SearchResult ({searchTerm}:SearchTermProps) {
     history.push(`${AppRoute.Guitars}/${id}`);
   };
   return (
-    <ul style={{zIndex: 1}} className={`form-search__select-list ${!searchTerm ? 'hidden' : ''}`}>
+    <ul style={{zIndex: 1}} className={`form-search__select-list ${!searchTerm || !isResults ? 'hidden' : ''}`}>
       {sortedResult && sortedResult.map((resultItem) => (
         <li className="form-search__select-item" tabIndex={0} key={resultItem.id} onClick={() => clickHandler(resultItem.id)}>
           {resultItem.name}

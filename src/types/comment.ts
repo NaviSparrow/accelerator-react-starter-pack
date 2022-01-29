@@ -10,8 +10,8 @@ type GuitarId = number;
 export type Comment = {
   id: Id;
   userName: UserName;
-  advantages: Advantages;
-  disadvantages: Disadvantages;
+  advantage: Advantages;
+  disadvantage: Disadvantages;
   comment: CommentText;
   rating: Rating;
   createAt: CreateAt;

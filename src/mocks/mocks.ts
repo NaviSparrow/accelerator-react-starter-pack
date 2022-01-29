@@ -4,8 +4,8 @@ import {Guitar} from '../types/guitar';
 export const makeFakeComment = () => ({
   id: datatype.number(50).toString(),
   userName: name.title(),
-  advantages: datatype.string(10),
-  disadvantages: datatype.string(10),
+  advantage: datatype.string(10),
+  disadvantage: datatype.string(10),
   comment: datatype.string(10),
   rating: datatype.number(5),
   createAt: datatype.string(10),

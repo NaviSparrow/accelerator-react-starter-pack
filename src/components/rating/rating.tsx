@@ -11,8 +11,7 @@ function Rating({guitarRating}:RatingProps):JSX.Element {
   const starsArray = new Array(STARS_COUNT).fill(null);
   let count = 0;
   return (
-    <div className="rate product-card__rate" aria-hidden="true">
-      <span className="visually-hidden">Рейтинг:</span>
+    <>
       {starsArray.map((star) => {
         count++;
         return (
@@ -22,7 +21,7 @@ function Rating({guitarRating}:RatingProps):JSX.Element {
           </svg>
         );
       })}
-    </div>
+    </>
   );
 }
 
