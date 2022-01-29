@@ -10,11 +10,11 @@ import {
   useFetchProductInfoQuery
 } from '../../service/api';
 import {
-  AppRoute,
-  isCommentsFetchHasError,
-  isProductFetchHasError
+  AppRoute, COMMENTS_ERROR_TEXT,
+  PAGE_NOT_FOUND, PRODUCT_INFO_ERROR_TEXT
 } from '../../const/const';
 import Loader from '../loader/loader';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 function GuitarProductScreen(): JSX.Element {
   const {id} = useParams<{ id?: string }>();
@@ -31,8 +31,23 @@ function GuitarProductScreen(): JSX.Element {
     error: commentsError,
   } = useFetchProductCommentsQuery(id);
 
-  isProductFetchHasError(productInfoError, isProductInfoError);
-  isCommentsFetchHasError(commentsError, isCommentsError);
+  if (isProductInfoError) {
+    if (productInfoError && 'status' in productInfoError) {
+      if (productInfoError.status === PAGE_NOT_FOUND) {
+        return <NotFoundPage />;
+      }
+      return <h1>{`${PRODUCT_INFO_ERROR_TEXT} ${productInfoError.status}`}</h1>;
+    }
+  }
+
+  if (isCommentsError) {
+    if (commentsError && 'status' in commentsError) {
+      if (commentsError.status === PAGE_NOT_FOUND) {
+        return <NotFoundPage />;
+      }
+      return <h1>{`${COMMENTS_ERROR_TEXT} ${commentsError.status}`}</h1>;
+    }
+  }
 
   return (
     <>

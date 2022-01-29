@@ -1,7 +1,5 @@
 import {Type, ViewState} from '../components/catalog/catalog';
 import {Guitar, GuitarsList} from '../types/guitar';
-import {QueryError} from '../types/util-types';
-import NotFoundPage from '../components/not-found-page/not-found-page';
 
 export const INITIAL_GUITARS_COUNT = 9;
 export const QUERY_MIN_PRICE  = 'price_gte';
@@ -178,23 +176,3 @@ export const getSortedResult = (data:GuitarsList, searchTerm: string) => {
   return [...matchGuitars, ...notMatchGuitars.sort(compareFunc)];
 };
 
-export const isProductFetchHasError = (productInfoError: QueryError, isProductInfoError: boolean) => {
-  if (isProductInfoError) {
-    if (productInfoError && 'status' in productInfoError) {
-      if (productInfoError.status === PAGE_NOT_FOUND) {
-        return <NotFoundPage />;
-      }
-      return <h1>{`${PRODUCT_INFO_ERROR_TEXT} ${productInfoError.status}`}</h1>;
-    }
-  }
-};
-export const isCommentsFetchHasError = (commentsError: QueryError, isCommentsError: boolean) => {
-  if (isCommentsError) {
-    if (commentsError && 'status' in commentsError) {
-      if (commentsError.status === PAGE_NOT_FOUND) {
-        return <NotFoundPage />;
-      }
-      return <h1>{`${COMMENTS_ERROR_TEXT} ${commentsError.status}`}</h1>;
-    }
-  }
-};
