@@ -1,7 +1,5 @@
 import {createMemoryHistory} from 'history';
-import {setupApiStore} from '../../service/test-utils';
 import {
-  mainAPI,
   useFetchAlikeGuitarsQuery,
   useFetchGuitarsListQuery,
   useFetchMaxPriceQuery,
@@ -17,6 +15,7 @@ import {ReactNode} from 'react';
 import {Guitar} from '../../types/guitar';
 import {makeFakeGuitarsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
+import {setUpStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -27,11 +26,11 @@ type ProviderProps = {
 }
 
 const wrapper = ({children}: ProviderProps):JSX.Element => (
-  <Provider store={storeRef.store}>{children}</Provider>
+  <Provider store={store}>{children}</Provider>
 );
 
 const history = createMemoryHistory();
-const storeRef = setupApiStore(mainAPI);
+const store = setUpStore();
 
 describe('Component: MainScreen', () => {
   it('useFetchAlikeGuitarsQuery should work correctly',async () => {
@@ -71,14 +70,14 @@ describe('Component: MainScreen', () => {
       type: undefined,
       stringCount: undefined,
     };
-    fetchMock.mockResponseOnce(JSON.stringify(fakeResponse));
+    fetchMock.mockResponseOnce(JSON.stringify({response: fakeResponse}));
     const {result, waitForNextUpdate} = renderHook(() => useFetchMaxPriceQuery(args), {wrapper});
     expect(result.current.isLoading).toBe(true);
     expect(result.current.currentData).toBe(undefined);
 
     await waitForNextUpdate({timeout: 5000});
     expect(result.current.isLoading).toBe(false);
-    expect(result.current.currentData).toStrictEqual(fakeResponse);
+    expect(result.current.currentData).toStrictEqual({response:fakeResponse});
   });
 
   it('useFetchGuitarsListQuery should work correctly', async () => {
@@ -102,12 +101,12 @@ describe('Component: MainScreen', () => {
 
     await waitForNextUpdate({timeout: 5000});
     expect(result.current.isLoading).toBe(false);
-    expect(result.current.currentData).toStrictEqual(fakeResponse);
+    expect(result.current.currentData).toStrictEqual({response:fakeResponse,totalCount: 0});
   });
 
   it('should render correctly', () => {
     render(
-      <Provider store={storeRef.store}>
+      <Provider store={store}>
         <Router history={history}>
           <Route exact path={AppRoute.Root}>
             <MainScreen/>

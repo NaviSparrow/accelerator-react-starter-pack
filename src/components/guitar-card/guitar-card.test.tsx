@@ -3,18 +3,17 @@ import {Provider} from 'react-redux';
 import {Route, Router} from 'react-router-dom';
 import GuitarCard from './guitar-card';
 import {makeFakeGuitar} from '../../mocks/mocks';
-import {setupApiStore} from '../../service/test-utils';
-import {mainAPI} from '../../service/api';
 import {createMemoryHistory} from 'history';
+import {setUpStore} from '../../store/store';
 
 const fakeGuitar = makeFakeGuitar();
-const storeRef = setupApiStore(mainAPI);
+const store = setUpStore();
 const history = createMemoryHistory();
 
 describe('Component: GuitarCard', () => {
   it('should render correctly', () => {
     render(
-      <Provider store={storeRef.store}>
+      <Provider store={store}>
         <Router history={history}>
           <Route render={() => <GuitarCard guitar={fakeGuitar}/>}>
           </Route>

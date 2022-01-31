@@ -1,6 +1,4 @@
 import {makeFakeGuitarsList} from '../../mocks/mocks';
-import {setupApiStore} from '../../service/test-utils';
-import {mainAPI} from '../../service/api';
 import {createMemoryHistory} from 'history';
 import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
@@ -9,6 +7,7 @@ import GuitarCardsList from './guitar-cards-list';
 import fetchMock from 'jest-fetch-mock';
 import userEvent from '@testing-library/user-event';
 import {datatype} from 'faker';
+import {setUpStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -16,7 +15,7 @@ beforeEach((): void => {
 
 const fakeGuitarsList = makeFakeGuitarsList(5);
 const fakeChangeURL = jest.fn();
-const storeRef = setupApiStore(mainAPI);
+const store= setUpStore();
 const history = createMemoryHistory();
 const fakeViewState = {};
 
@@ -24,7 +23,7 @@ describe('Component: GuitarCardList', () => {
 
   it('should render correctly', () => {
     render(
-      <Provider store={storeRef.store}>
+      <Provider store={store}>
         <Router history={history}>
           <Route render={() => <GuitarCardsList guitarsList={{response:fakeGuitarsList, totalCount: datatype.number(12) }} onChangeURL={fakeChangeURL} viewState={fakeViewState}/>}>
           </Route>

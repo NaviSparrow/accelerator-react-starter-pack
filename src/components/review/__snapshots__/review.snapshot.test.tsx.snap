@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Review should render correctly 1`] = `
+<div
+  className="review"
+>
+  <div
+    className="review__wrapper"
+  >
+    <h4
+      className="review__title review__title--author title title--lesser"
+    >
+      name
+    </h4>
+    <span
+      className="review__date"
+    >
+      Invalid Date
+    </span>
+  </div>
+  <div
+    aria-hidden="true"
+    className="rate review__rating-panel"
+  >
+    <span
+      className="visually-hidden"
+    >
+      Рейтинг:
+    </span>
+    <svg
+      aria-hidden="true"
+      height="11"
+      width="12"
+    >
+      <use
+        xlinkHref="#icon-full-star"
+      />
+    </svg>
+    <svg
+      aria-hidden="true"
+      height="11"
+      width="12"
+    >
+      <use
+        xlinkHref="#icon-full-star"
+      />
+    </svg>
+    <svg
+      aria-hidden="true"
+      height="11"
+      width="12"
+    >
+      <use
+        xlinkHref="#icon-star"
+      />
+    </svg>
+    <svg
+      aria-hidden="true"
+      height="11"
+      width="12"
+    >
+      <use
+        xlinkHref="#icon-star"
+      />
+    </svg>
+    <svg
+      aria-hidden="true"
+      height="11"
+      width="12"
+    >
+      <use
+        xlinkHref="#icon-star"
+      />
+    </svg>
+    <span
+      className="rate__count"
+    />
+    <span
+      className="rate__message"
+    />
+  </div>
+  <h4
+    className="review__title title title--lesser"
+  >
+    Достоинства:
+  </h4>
+  <p
+    className="review__value"
+  >
+    advantage
+  </p>
+  <h4
+    className="review__title title title--lesser"
+  >
+    Недостатки:
+  </h4>
+  <p
+    className="review__value"
+  >
+    disadvantage
+  </p>
+  <h4
+    className="review__title title title--lesser"
+  >
+    Комментарий:
+  </h4>
+  <p
+    className="review__value"
+  >
+    comment
+  </p>
+</div>
+`;

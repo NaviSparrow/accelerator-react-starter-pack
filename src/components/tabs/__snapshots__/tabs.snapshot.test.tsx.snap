@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Tabs should render correctly 1`] = `
+<div
+  className="tabs"
+>
+  <a
+    className="button  button--medium tabs__button"
+    href="/guitars/1#characteristics"
+    onClick={[Function]}
+  >
+    Характеристики
+  </a>
+  <a
+    className="button button--black-border button--medium tabs__button"
+    href="/guitars/1#description"
+    onClick={[Function]}
+  >
+    Описание
+  </a>
+  <div
+    className="tabs__content"
+    id="characteristics"
+  >
+    <table
+      className="tabs__table "
+    >
+      <tbody>
+        <tr
+          className="tabs__table-row"
+        >
+          <td
+            className="tabs__title"
+          >
+            Артикул:
+          </td>
+          <td
+            className="tabs__value"
+          >
+            code
+          </td>
+        </tr>
+        <tr
+          className="tabs__table-row"
+        >
+          <td
+            className="tabs__title"
+          >
+            Тип:
+          </td>
+          <td
+            className="tabs__value"
+          />
+        </tr>
+        <tr
+          className="tabs__table-row"
+        >
+          <td
+            className="tabs__title"
+          >
+            Количество струн:
+          </td>
+          <td
+            className="tabs__value"
+          >
+            2
+             струнная
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      className="tabs__product-description visually-hidden"
+    >
+      description
+    </p>
+  </div>
+</div>
+`;

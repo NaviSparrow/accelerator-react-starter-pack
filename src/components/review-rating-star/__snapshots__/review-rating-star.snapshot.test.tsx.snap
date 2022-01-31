@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: ReviewRatingStar should render correctly 1`] = `
+Array [
+  <input
+    className="visually-hidden"
+    id="star-2"
+    name="rate"
+    onChange={[Function]}
+    type="radio"
+    value="2"
+  />,
+  <label
+    className="rate__label"
+    htmlFor="star-2"
+    title="test"
+  />,
+]
+`;

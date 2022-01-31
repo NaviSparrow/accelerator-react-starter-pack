@@ -1,6 +1,5 @@
 import fetchMock from 'jest-fetch-mock';
-import {setupApiStore} from '../../service/test-utils';
-import {mainAPI, useFetchMaxPriceQuery, useFetchMinPriceQuery} from '../../service/api';
+import {useFetchMaxPriceQuery, useFetchMinPriceQuery} from '../../service/api';
 import {createMemoryHistory} from 'history';
 import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
@@ -11,6 +10,7 @@ import {Guitar} from '../../types/guitar';
 import {makeFakeGuitarsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {ReactNode} from 'react';
+import {setUpStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -21,10 +21,10 @@ type ProviderProps = {
 }
 
 const wrapper = ({children}: ProviderProps):JSX.Element => (
-  <Provider store={storeRef.store}>{children}</Provider>
+  <Provider store={store}>{children}</Provider>
 );
 
-const storeRef = setupApiStore(mainAPI);
+const store = setUpStore();
 const history = createMemoryHistory();
 const viewState = {};
 const changeURL = jest.fn();
@@ -65,7 +65,7 @@ describe('Component: Filter', () => {
 
   it('should render correctly', () => {
     render(
-      <Provider store={storeRef.store}>
+      <Provider store={store}>
         <Router history={history}>
           <Route render={() => <Filter viewState={viewState} onChangeURL={changeURL}/>}>
           </Route>

@@ -1,6 +1,5 @@
 import {createMemoryHistory} from 'history';
-import {setupApiStore} from '../../service/test-utils';
-import {mainAPI, useFetchAlikeGuitarsQuery} from '../../service/api';
+import {useFetchAlikeGuitarsQuery} from '../../service/api';
 import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {Route, Router} from 'react-router-dom';
@@ -10,6 +9,7 @@ import {makeFakeGuitarsList} from '../../mocks/mocks';
 import fetchMock from 'jest-fetch-mock';
 import {renderHook} from '@testing-library/react-hooks';
 import {ReactNode} from 'react';
+import {setUpStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -20,11 +20,11 @@ type ProviderProps = {
 }
 
 const wrapper = ({children}: ProviderProps):JSX.Element => (
-  <Provider store={storeRef.store}>{children}</Provider>
+  <Provider store={store}>{children}</Provider>
 );
 
 const history = createMemoryHistory();
-const storeRef = setupApiStore(mainAPI);
+const store = setUpStore() ;
 
 describe('Component: Header', () => {
   it('useFetchAlikeGuitarsQuery should work correctly',async () => {
@@ -43,7 +43,7 @@ describe('Component: Header', () => {
 
   it('should render correctly', () => {
     render(
-      <Provider store={storeRef.store}>
+      <Provider store={store}>
         <Router history={history}>
           <Route render={() => <Header />}>
           </Route>

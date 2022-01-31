@@ -1,5 +1,4 @@
-import {setupApiStore} from '../../service/test-utils';
-import {mainAPI, useFetchGuitarsListQuery} from '../../service/api';
+import {useFetchGuitarsListQuery} from '../../service/api';
 import {render, screen} from '@testing-library/react';
 import {Route, Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
@@ -10,6 +9,7 @@ import {makeFakeGuitarsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {Guitar} from '../../types/guitar';
 import {ReactNode} from 'react';
+import {setUpStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -19,8 +19,8 @@ type ProviderProps = {
   children: ReactNode;
 }
 
-const wrapper = ({children}:ProviderProps):JSX.Element => <Provider store={storeRef.store}>{children}</Provider>;
-const storeRef = setupApiStore(mainAPI);
+const wrapper = ({children}:ProviderProps):JSX.Element => <Provider store={store}>{children}</Provider>;
+const store = setUpStore();
 const history = createMemoryHistory();
 
 describe('Component: Catalog', () => {
@@ -45,23 +45,18 @@ describe('Component: Catalog', () => {
 
     await waitForNextUpdate({timeout: 5000});
     expect(result.current.isLoading).toBe(false);
-    expect(result.current.currentData).toStrictEqual(fakeResponse);
+    expect(result.current.currentData).toStrictEqual({response:fakeResponse,totalCount: 0});
   });
 
-  it('should render correctly',() => {
+  it('should render correctly', () => {
     render(
-      <Provider store={storeRef.store}>
+      <Provider store={store}>
         <Router history={history}>
           <Route render={() => <Catalog />}>
           </Route>
         </Router>
       </Provider>);
-    expect(screen.getByText(/Фильтр/i)).toBeInTheDocument();
-    expect(screen.getByText(/Тип гитар/i)).toBeInTheDocument();
-    expect(screen.getByText(/Цена, ₽/i)).toBeInTheDocument();
-    expect(screen.getByText(/Количество струн/i)).toBeInTheDocument();
-    expect(screen.getByText(/Сортировать:/i)).toBeInTheDocument();
-    expect(screen.getByText(/по цене/i)).toBeInTheDocument();
-    expect(screen.getByText(/по популярности/i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+
   });
 });
