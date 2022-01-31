@@ -1,79 +1,49 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Comment, CommentList} from '../../types/comment';
 import Review from '../review/review';
-import {AppRoute} from '../../const/const';
+import {AppRoute, sortByDate} from '../../const/const';
 import ModalReview from '../modal-review/modal-review';
 import {Guitar} from '../../types/guitar';
-import {useAddReviewMutation} from '../../service/api';
-import dayjs from 'dayjs';
 import ModalSuccessPostReview from '../modal-success-post-review/modal-success-post-review';
+import {useNewReview} from '../../hooks/use-new-review/useNewReview';
+import {useShowReviews} from '../../hooks/use-show-reviews/use-show-reviews';
+import {useModalReview} from '../../hooks/use-modal-review/use-modal-review';
+import {useModalSuccess} from '../../hooks/use-modal-success/use-modal-success';
 
 type ReviewsProps = {
   reviews: CommentList;
   productInfo?: Guitar;
 }
 
-const sortByDate = (reviewA:Comment, reviewB:Comment) => {
-  const dateA = dayjs(reviewA.createAt);
-  const dateB = dayjs(reviewB.createAt);
-
-  return dateB.diff(dateA, 'minute');
-};
-
-const REVIEWS_PER_STEP = 3;
-
 function ReviewsList({reviews, productInfo}:ReviewsProps):JSX.Element {
-  const [reviewsToShow, setReviewsToShow] = useState(REVIEWS_PER_STEP);
-  const [isModalReviewVisible, setIsModalReviewVisible] = useState<boolean>(false);
-  const [isModalSuccessVisible, setIsModalSuccessVisible] = useState<boolean>(false);
-
-  const openModalReviewHandler = () => {
-    setIsModalReviewVisible(true);
-  };
-
-  const closeModalReviewHandler = () => {
-    setIsModalReviewVisible(false);
-  };
-
-  const openModalSuccessHandler = () => {
-    setIsModalSuccessVisible(true);
-  };
-
-  const closeModalSuccessHandler = () => {
-    setIsModalSuccessVisible(false);
-  };
-
-  const showMoreClickHandler = () => {
-    setReviewsToShow(reviewsToShow + REVIEWS_PER_STEP);
-  };
-
-  const [addReview, {isSuccess:isReviewPostSuccess, reset, error}] = useAddReviewMutation();
+  const {reviewsToShow, showMoreClickHandler, checkShowMoreButton} = useShowReviews(reviews);
+  const {isModalReviewVisible, openModalReview, closeModalReview} = useModalReview();
+  const {isModalSuccessVisible, openModalSuccess, closeModalSuccess} = useModalSuccess();
+  const {addReview, isReviewPostSuccess, reset, error} = useNewReview();
 
   if(isReviewPostSuccess){
     reset();
-    closeModalReviewHandler();
-    openModalSuccessHandler();
+    closeModalReview();
+    openModalSuccess();
   }
-
-  const checkShowMoreButton = () => reviews.length < REVIEWS_PER_STEP || reviewsToShow >= reviews.length;
 
   return (
     <section className="reviews">
       <h3 className="reviews__title title title--bigger">
         Отзывы
       </h3>
-      <button className="button button--red-border button--big reviews__sumbit-button" onClick={openModalReviewHandler}>
+      <button className="button button--red-border button--big reviews__sumbit-button" onClick={openModalReview}>
         Оставить отзыв
       </button>
-      {(productInfo && isModalReviewVisible) && <ModalReview productInfo={productInfo} isVisible={isModalReviewVisible} onClose={closeModalReviewHandler} onSubmitNewReview={addReview} error={error}/>}
-      {isModalSuccessVisible && <ModalSuccessPostReview isVisible={isModalSuccessVisible} onClose={closeModalSuccessHandler}/>}
+      {(productInfo && isModalReviewVisible) && <ModalReview productInfo={productInfo} isVisible={isModalReviewVisible} onClose={closeModalReview} onSubmitNewReview={addReview} error={error}/>}
+      {isModalSuccessVisible && <ModalSuccessPostReview isVisible={isModalSuccessVisible} onClose={closeModalSuccess}/>}
       {
         reviews.slice()
           .sort(sortByDate)
           .slice(0, reviewsToShow)
           .map((review:Comment) => (<Review key={review.id} review={review} />))
       }
-      <button className={`${checkShowMoreButton() ? 'visually-hidden' : 'button button--medium reviews__more-button'}`} onClick={showMoreClickHandler}>
+      <button className={`${checkShowMoreButton() ? 'visually-hidden' : 'button button--medium reviews__more-button'}`} onClick={showMoreClickHandler} data-testid='show more'>
         Показать еще отзывы
       </button>
       {reviews.length > 0

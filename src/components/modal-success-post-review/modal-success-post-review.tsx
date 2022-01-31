@@ -1,6 +1,6 @@
 import ReactFocusLock from 'react-focus-lock';
-import useLockBodyScroll from '../../hooks/use-lock-body-scroll';
-import useEscapeEventListener from '../../hooks/use-escape-event-listener';
+import useLockBodyScroll from '../../hooks/use-lock-body-scroll/use-lock-body-scroll';
+import useEscapeEventListener from '../../hooks/use-escape-event-listener/use-escape-event-listener';
 
 type ModalSuccessPostReviewProps = {
   isVisible: boolean;

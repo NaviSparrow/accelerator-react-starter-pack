@@ -1,5 +1,7 @@
 import {Type, ViewState} from '../components/catalog/catalog';
 import {Guitar, GuitarsList} from '../types/guitar';
+import {Comment} from '../types/comment';
+import dayjs from 'dayjs';
 
 export const INITIAL_GUITARS_COUNT = 9;
 export const QUERY_MIN_PRICE  = 'price_gte';
@@ -15,6 +17,7 @@ export const TWELVE_STRINGS = 'twelveStrings';
 export const PAGE_NOT_FOUND = 404;
 export const PRODUCT_INFO_ERROR_TEXT = 'При загрузки информации о товаре произошла ошибка';
 export const COMMENTS_ERROR_TEXT = 'При загрузки отзывов о товаре произошла ошибка';
+export const REVIEWS_PER_STEP = 3;
 
 export enum APIRoute {
   Guitars = '/guitars',
@@ -174,4 +177,11 @@ export const getSortedResult = (data:GuitarsList, searchTerm: string) => {
         : notMatchGuitars.push(item));
   }
   return [...matchGuitars, ...notMatchGuitars.sort(compareFunc)];
+};
+
+export const sortByDate = (reviewA:Comment, reviewB:Comment) => {
+  const dateA = dayjs(reviewA.createAt);
+  const dateB = dayjs(reviewB.createAt);
+
+  return dateB.diff(dateA, 'minute');
 };

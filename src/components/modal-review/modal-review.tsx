@@ -7,8 +7,8 @@ import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 import {SerializedError} from '@reduxjs/toolkit';
 import {toast} from 'react-toastify';
 import ReactFocusLock from 'react-focus-lock';
-import useLockBodyScroll from '../../hooks/use-lock-body-scroll';
-import useEscapeEventListener from '../../hooks/use-escape-event-listener';
+import useLockBodyScroll from '../../hooks/use-lock-body-scroll/use-lock-body-scroll';
+import useEscapeEventListener from '../../hooks/use-escape-event-listener/use-escape-event-listener';
 import {reviewRating} from '../../const/const';
 
 type ModalReviewProps = {
@@ -111,7 +111,7 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
               >
               </textarea>
               <span className={`${comment.length < 1 ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>
-              <button className="button button--medium-20 form-review__button" type="submit"
+              <button className="button button--medium-20 form-review__button" type="submit" data-testid='submit'
                 onClick={(evt) => {
                   evt.preventDefault();
                   if(isReviewValid()) {

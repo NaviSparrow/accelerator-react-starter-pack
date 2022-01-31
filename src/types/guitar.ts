@@ -11,7 +11,7 @@ type Rating = number;
 type Price = number;
 
 export type Guitar = {
-  comments: CommentList;
+  comments?: CommentList;
   id: Id;
   name: Name;
   vendorCode: VendorCode;

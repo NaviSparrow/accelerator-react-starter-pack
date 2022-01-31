@@ -6,30 +6,19 @@ import Footer from '../footer/footer';
 import {useParams} from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import {
-  useFetchProductCommentsQuery,
-  useFetchProductInfoQuery
-} from '../../service/api';
-import {
   AppRoute, COMMENTS_ERROR_TEXT,
   PAGE_NOT_FOUND, PRODUCT_INFO_ERROR_TEXT
 } from '../../const/const';
 import Loader from '../loader/loader';
 import NotFoundPage from '../not-found-page/not-found-page';
+import {useProductInfo} from '../../hooks/use-product-info/use-product-info';
+import {useProductComments} from '../../hooks/use-product-comments/use-product-comments';
 
 function GuitarProductScreen(): JSX.Element {
   const {id} = useParams<{ id?: string }>();
 
-  const {
-    data: productInfo,
-    isLoading: isInfoLoading,
-    isError: isProductInfoError,
-    error: productInfoError,
-  } = useFetchProductInfoQuery(id);
-  const {
-    data: productComments,
-    isError: isCommentsError,
-    error: commentsError,
-  } = useFetchProductCommentsQuery(id);
+  const {productInfo, isProductInfoError , productInfoError, isInfoLoading} = useProductInfo(id);
+  const {productComments, isCommentsError, commentsError} = useProductComments(id);
 
   if (isProductInfoError) {
     if (productInfoError && 'status' in productInfoError) {

@@ -29,3 +29,26 @@ export const makeFakeGuitar = () => ({
 });
 
 export const makeFakeGuitarsList = (value: number): Guitar[] => new Array(value).fill(null).map(() => makeFakeGuitar());
+
+export const fakeGuitar = {
+  id: 1,
+  name: 'name',
+  vendorCode: 'code',
+  type: 'type',
+  description: 'description',
+  previewImg: 'image',
+  stringCount: 2,
+  rating: 3,
+  price: 4,
+};
+
+export const fakeComment = {
+  id: '1',
+  userName: 'name',
+  advantage: 'advantage',
+  disadvantage: 'disadvantage',
+  comment: 'comment',
+  rating: 2,
+  createAt: 'date',
+  guitarId: 3,
+};

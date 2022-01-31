@@ -16,7 +16,7 @@ function GuitarCard(props:GuitarCardProps): JSX.Element {
       <div className="product-card__info">
         <div className="rate product-card__rate" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
           <Rating guitarRating={rating}/>
-          <span className="rate__count">{guitar.comments.length}</span>
+          <span className="rate__count">{guitar.comments && guitar.comments.length}</span>
           <span className="rate__message">
           </span>
         </div>

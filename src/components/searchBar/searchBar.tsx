@@ -1,5 +1,5 @@
 import {ChangeEvent, useState} from 'react';
-import useDebounce from '../../hooks/useDebounce';
+import useDebounce from '../../hooks/use-debounce/use-debounce';
 import SearchResult from './searchResult';
 
 const TIME_OUT = 500;

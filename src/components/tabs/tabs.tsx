@@ -1,23 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Guitar} from '../../types/guitar';
 import {AppRoute, GuitarType} from '../../const/const';
+import {useTabs} from '../../hooks/use-tabs/useTabs';
 
 type TabsProps = {
   productInfo: Guitar;
 }
 
-enum Tab {
+export enum Tab {
   Characteristics = '#characteristics',
   Description = '#description',
 }
 
 function Tabs({productInfo}:TabsProps):JSX.Element {
   const {vendorCode, type, stringCount, description, id} = productInfo;
-  const [activeTab, setActiveTab] = useState<string>(Tab.Characteristics);
-
-  const tabClickHandler = (tabName:string) => {
-    setActiveTab(tabName);
-  };
+  const {activeTab, tabClickHandler} = useTabs();
 
   return (
     <div className="tabs">
