@@ -1,11 +1,11 @@
 import fetchMock from 'jest-fetch-mock';
 import {ReactNode} from 'react';
 import {Provider} from 'react-redux';
-import {setupApiStore} from '../../service/test-utils';
-import {mainAPI, useFetchAlikeGuitarsQuery} from '../../service/api';
+import {useFetchAlikeGuitarsQuery} from '../../service/api';
 import {Guitar} from '../../types/guitar';
 import {makeFakeGuitarsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
+import {setUpStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -16,10 +16,10 @@ type ProviderProps = {
 }
 
 const wrapper = ({children}: ProviderProps):JSX.Element => (
-  <Provider store={storeRef.store}>{children}</Provider>
+  <Provider store={store}>{children}</Provider>
 );
 
-const storeRef = setupApiStore(mainAPI);
+const store = setUpStore();
 const fakeTerm = 'fake';
 
 describe('Component: SearchResult', () => {
