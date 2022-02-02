@@ -51,7 +51,7 @@ function GuitarProductScreen(): JSX.Element {
               </li>
               <li className="breadcrumbs__item"><Link className="link" to={AppRoute.Root}>Каталог</Link>
               </li>
-              <li className="breadcrumbs__item"><a className="link">{productInfo && productInfo.name}</a>
+              <li className="breadcrumbs__item"><a className="link" href="#-product-name">{productInfo && productInfo.name}</a>
               </li>
             </ul>
             {isInfoLoading
