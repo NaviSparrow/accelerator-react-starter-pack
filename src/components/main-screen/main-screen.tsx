@@ -2,6 +2,7 @@ import Icons from '../../icons/icons';
 import Header from '../header/header';
 import Catalog from '../catalog/catalog';
 import Footer from '../footer/footer';
+import {Link} from 'react-router-dom';
 
 function MainScreen():JSX.Element {
   return (
@@ -13,9 +14,9 @@ function MainScreen():JSX.Element {
           <div className="container">
             <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
             <ul className="breadcrumbs page-content__breadcrumbs">
-              <li className="breadcrumbs__item"><a className="link" href="./main.html">Главная</a>
+              <li className="breadcrumbs__item"><Link className="link" to="#">Главная</Link>
               </li>
-              <li className="breadcrumbs__item"><a className="link">Каталог</a>
+              <li className="breadcrumbs__item"><Link className="link" to="#">Каталог</Link>
               </li>
             </ul>
             <Catalog />

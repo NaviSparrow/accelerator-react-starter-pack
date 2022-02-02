@@ -17,6 +17,9 @@ export const TWELVE_STRINGS = 'twelveStrings';
 export const PAGE_NOT_FOUND = 404;
 export const PRODUCT_INFO_ERROR_TEXT = 'При загрузки информации о товаре произошла ошибка';
 export const COMMENTS_ERROR_TEXT = 'При загрузки отзывов о товаре произошла ошибка';
+export const REVIEW_FIELDS_ERROR_TEXT = 'Для отправки нужно заполнить все поля';
+export const REVIEW_POST_ERROR_TEXT = 'Произошла ошибка. Попробуйте снова';
+export const REVIEW_POST_SUCCESS_TEXT = 'Отзыв успешно отправлен';
 export const REVIEWS_PER_STEP = 3;
 
 export enum APIRoute {
@@ -185,3 +188,4 @@ export const sortByDate = (reviewA:Comment, reviewB:Comment) => {
 
   return dateB.diff(dateA, 'minute');
 };
+

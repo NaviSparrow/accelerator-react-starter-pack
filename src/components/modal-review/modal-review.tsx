@@ -9,7 +9,12 @@ import {toast} from 'react-toastify';
 import ReactFocusLock from 'react-focus-lock';
 import useLockBodyScroll from '../../hooks/use-lock-body-scroll/use-lock-body-scroll';
 import useEscapeEventListener from '../../hooks/use-escape-event-listener/use-escape-event-listener';
-import {reviewRating} from '../../const/const';
+import {
+  REVIEW_FIELDS_ERROR_TEXT,
+  REVIEW_POST_ERROR_TEXT,
+  REVIEW_POST_SUCCESS_TEXT,
+  reviewRating
+} from '../../const/const';
 
 type ModalReviewProps = {
   productInfo: Guitar;
@@ -51,7 +56,7 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
     resetReviewForm();
   };
 
-  const isReviewValid = ():boolean => userName.length === 0 || rating === null || advantages.length === 0 || disadvantages.length === 0 || comment.length === 0;
+  const isReviewNotValid = ():boolean => userName.length === 0 || rating === 0 || advantages.length === 0 || disadvantages.length === 0 || comment.length === 0;
 
   return (
     <ReactFocusLock>
@@ -114,10 +119,13 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
               <button className="button button--medium-20 form-review__button" type="submit" data-testid='submit'
                 onClick={(evt) => {
                   evt.preventDefault();
-                  if(isReviewValid()) {
-                    return toast.error('Для отправки нужно заполнить все поля');
+                  if(isReviewNotValid()) {
+                    return toast.error(REVIEW_FIELDS_ERROR_TEXT);
+                  } else {
+                    submitButtonHandler()
+                      .then(() => toast.success(REVIEW_POST_SUCCESS_TEXT))
+                      .catch(() => toast.error(REVIEW_POST_ERROR_TEXT));
                   }
-                  submitButtonHandler();
                 }}
               >Отправить отзыв
               </button>

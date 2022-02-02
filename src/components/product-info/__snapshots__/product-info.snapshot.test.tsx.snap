@@ -167,7 +167,8 @@ exports[`Component: ProductInfo should render correctly 1`] = `
     </p>
     <a
       className="button button--red button--big product-container__button"
-      href="#"
+      href="/#"
+      onClick={[Function]}
     >
       Добавить в корзину
     </a>

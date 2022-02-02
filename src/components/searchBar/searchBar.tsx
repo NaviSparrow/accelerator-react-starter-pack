@@ -14,7 +14,7 @@ function SearchBar():JSX.Element {
     setSearchTerm(target.value);
   };
 
-  const openResults = () => setIsResults(true);
+  const openResults = () =>  setIsResults(true);
   const closeResults = () => setIsResults(false);
 
   return (
@@ -37,11 +37,11 @@ function SearchBar():JSX.Element {
           onChange={handleInputChange}
           data-testid='search'
           onFocus={openResults}
-          onBlur={closeResults}
+          onMouseEnter={openResults}
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>
-      {isResults && <SearchResult searchTerm={debouncedSearchTerm} isResults={isResults}/>}
+      {isResults && <SearchResult searchTerm={debouncedSearchTerm} isResults={isResults} onClose={closeResults} onOpen={openResults}/>}
     </div>
   );
 }

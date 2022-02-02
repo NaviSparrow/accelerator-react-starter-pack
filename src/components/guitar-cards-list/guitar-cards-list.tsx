@@ -5,7 +5,7 @@ import {
   getPaginationPages,
   INITIAL_GUITARS_COUNT
 } from '../../const/const';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {ViewState} from '../catalog/catalog';
 
 type GuitarCardsListProps = {
@@ -25,10 +25,10 @@ function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListPr
 
   const paginationPages = pagesTotalCount && getPaginationPages(startPage, pagesTotalCount);
 
-  const changePageHandler = (pageNumber: number) => {
+  const changePageHandler = useCallback((pageNumber: number) => {
     setCurrentPage(pageNumber.toString());
     onChangeURL({...viewState, page: pageNumber.toString()});
-  };
+  }, [onChangeURL, viewState]);
 
   const nextPageClickHandler = () => {
     setCurrentPage((Number(currentPage) + 1).toString());
@@ -50,7 +50,7 @@ function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListPr
     if ((guitarsList && guitarsList.response.length === 0) && currentPage !== FIRST_PAGE.toString()) {
       changePageHandler(FIRST_PAGE);
     }
-  }, [guitarsList?.response]);
+  }, [changePageHandler, currentPage, guitarsList, guitarsList?.response]);
 
   return (
     <>
@@ -60,16 +60,34 @@ function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListPr
       <div className="pagination page-content__pagination">
         <ul className="pagination__list">
           <li className={`pagination__page pagination__page--prev ${Number(currentPage) <= FIRST_PAGE ? 'visually-hidden' : ''}`} id="prev">
-            <a className="link pagination__page-link" onClick={() => prevPageClickHandler()}>Назад</a>
+            <a className="link pagination__page-link" href="/#"
+              onClick={(evt) => {
+                evt.preventDefault();
+                prevPageClickHandler();
+              }}
+            >Назад
+            </a>
           </li>
           {paginationPages && paginationPages.map((pageNumber:number) =>  (
             <li key={pageNumber} className={`pagination__page ${pageNumber.toString() === currentPage ? 'pagination__page--active' : ''}`}>
-              <a className="link pagination__page-link" onClick={() => changePageHandler(pageNumber)}>{pageNumber}</a>
+              <a className="link pagination__page-link" href="/#"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  changePageHandler(pageNumber);
+                }}
+              >{pageNumber}
+              </a>
             </li>
           ),
           )}
           <li className={`pagination__page pagination__page--next ${pagesTotalCount && Number(currentPage) < pagesTotalCount  ? '' : 'visually-hidden'}`} id="next">
-            <a className="link pagination__page-link" onClick={() => nextPageClickHandler()}>Далее</a>
+            <a className="link pagination__page-link" href="/#"
+              onClick={(evt) => {
+                evt.preventDefault();
+                nextPageClickHandler();
+              }}
+            >Далее
+            </a>
           </li>
         </ul>
       </div>

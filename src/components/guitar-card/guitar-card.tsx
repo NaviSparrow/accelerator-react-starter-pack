@@ -24,7 +24,7 @@ function GuitarCard(props:GuitarCardProps): JSX.Element {
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${price}`} ₽</p>
       </div>
       <div className="product-card__buttons"><Link className="button button--mini" to={`${AppRoute.Guitars}/${id}`}>Подробнее</Link>
-        <a className="button button--red button--mini button--add-to-cart" href="#">Купить</a>
+        <a className="button button--red button--mini button--add-to-cart" href="/#">Купить</a>
       </div>
     </div>
   );

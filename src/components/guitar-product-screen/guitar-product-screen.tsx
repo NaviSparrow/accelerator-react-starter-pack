@@ -47,11 +47,11 @@ function GuitarProductScreen(): JSX.Element {
           <div className="container">
             <h1 className="page-content__title title title--bigger">{productInfo && productInfo.name}</h1>
             <ul className="breadcrumbs page-content__breadcrumbs">
-              <li className="breadcrumbs__item"><a className="link" href="./main.html">Главная</a>
+              <li className="breadcrumbs__item"><Link className="link" to="#">Главная</Link>
               </li>
               <li className="breadcrumbs__item"><Link className="link" to={AppRoute.Root}>Каталог</Link>
               </li>
-              <li className="breadcrumbs__item"><a className="link">{productInfo && productInfo.name}</a>
+              <li className="breadcrumbs__item"><a className="link" href="/#">{productInfo && productInfo.name}</a>
               </li>
             </ul>
             {isInfoLoading

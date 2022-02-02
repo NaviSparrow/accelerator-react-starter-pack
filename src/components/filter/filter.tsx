@@ -1,4 +1,4 @@
-import {ChangeEvent, useCallback, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {
   QUERY_MAX_PRICE,
   QUERY_MIN_PRICE,
@@ -75,20 +75,18 @@ function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
     return onChangeURL({...viewState, [QUERY_MAX_PRICE]: maxCatalogPrice});
   };
 
-  const debouncedChangeURL = useCallback(
-    _.debounce((field: string, value:string) => {
-      if (value.length === 0) {
-        return deletePriceFromURL(field, value);
-      }
-      if (field === QUERY_MIN_PRICE && Number(value) < Number(minCatalogPrice)) {
-        return replaceMinPrice();
-      }
-      if (field === QUERY_MAX_PRICE && Number(value) > Number(maxCatalogPrice)) {
-        return replaceMaxPrice();
-      }
-      onChangeURL({...viewState, [field]: value});
-    }, TIME_OUT)
-    , [viewState, minCatalogPrice, maxCatalogPrice]);
+  const debouncedChangeURL = _.debounce((field: string, value:string) => {
+    if (value.length === 0) {
+      return deletePriceFromURL(field, value);
+    }
+    if (field === QUERY_MIN_PRICE && Number(value) < Number(minCatalogPrice)) {
+      return replaceMinPrice();
+    }
+    if (field === QUERY_MAX_PRICE && Number(value) > Number(maxCatalogPrice)) {
+      return replaceMaxPrice();
+    }
+    onChangeURL({...viewState, [field]: value});
+  }, TIME_OUT);
 
   const addTypeFilter = (name: string) => {
     setStateType({...stateType, [name]: name});
