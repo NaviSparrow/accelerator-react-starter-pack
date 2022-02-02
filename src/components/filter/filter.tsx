@@ -143,7 +143,7 @@ function Filter ({viewState, onChangeURL}:FilterProps):JSX.Element {
             <label className="visually-hidden">Максимальная цена</label>
             <input type="number" placeholder={maxCatalogPrice && maxCatalogPrice} id="priceMax" name="до" data-testid='priceMax'
               value={stateMaximumPrice}
-              onChange={({target}:ChangeEvent<HTMLInputElement>) => {
+              onChange={({target}) => {//можно сэкономить нажатия на кнопки
                 setStateMaximumPrice(target.value);
               }}
               onBlur={() => stateMaximumPrice ? debouncedChangeURL(QUERY_MAX_PRICE, stateMaximumPrice) : debouncedChangeURL(QUERY_MAX_PRICE, '')}
