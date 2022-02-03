@@ -9,7 +9,7 @@ type ReviewRatingStarProps = {
 
 function ReviewRatingStar({star, label, onChange, userRating}:ReviewRatingStarProps):JSX.Element {
   const checkRating = () => {
-    if (userRating === null) {
+    if (userRating === 0) {
       return false;
     }
   };
@@ -19,7 +19,7 @@ function ReviewRatingStar({star, label, onChange, userRating}:ReviewRatingStarPr
       <input className="visually-hidden" type="radio" id={`star-${star}`} name="rate" value={star} checked={checkRating()}
         onChange={() => onChange(Number(star))}
       />
-      <label className="rate__label" htmlFor={`star-${star}`} title={label}/>
+      <label className="rate__label" tabIndex={0} htmlFor={`star-${star}`} title={label}/>
     </>
   );
 }
