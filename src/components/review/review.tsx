@@ -2,12 +2,13 @@ import React from 'react';
 import {Comment} from '../../types/comment';
 import Rating from '../rating/rating';
 import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
 
 type ReviewProps = {
   review: Comment;
 }
 
-const formatDate = (date: string) => dayjs(date).format('DD MMMM').toString();
+const formatDate = (date: string) => dayjs(date).locale('ru').format('DD MMMM').toString();
 
 function Review({review}:ReviewProps):JSX.Element {
   const {userName, rating, disadvantage, advantage, comment, createAt} = review;
