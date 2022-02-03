@@ -33,6 +33,7 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
   const [disadvantages, setDisadvantages] = useState<string>('');
   const [comment, setComment] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
+  const [notValidFlag, setNotValidFlag] = useState(false);
 
   const newReview: CommentPost = {
     guitarId: productInfo.id,
@@ -58,6 +59,10 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
 
   const isReviewNotValid = ():boolean => userName.length === 0 || rating === 0 || advantages.length === 0 || disadvantages.length === 0 || comment.length === 0;
 
+  const showNotValidFields = () => {
+    setNotValidFlag(true);
+  };
+
   return (
     <ReactFocusLock>
       <div className={`modal ${isVisible ? 'is-active' : ''}  modal--review`}>
@@ -77,7 +82,7 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
                       setUserName(target.value);
                     }}
                   />
-                  <span className={`${userName.length < 2 ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>
+                  {(userName.length === 0 && notValidFlag) && <span className={`${userName.length < 2 ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>}
                 </div>
                 <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
                   <div className="rate rate--reverse">
@@ -87,7 +92,7 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
                         .map(([star, label]) => <ReviewRatingStar key={star} star={star} label={label} onChange={setRating} userRating={rating} />)
                     }
                     <span className="rate__count"/>
-                    <span className={`${rating === null ? 'rate__message' : 'visually-hidden'}`}>Поставьте оценку</span>
+                    <span className={`${rating === 0 && notValidFlag ? 'rate__message' : 'visually-hidden'}`}>Поставьте оценку</span>
                   </div>
                 </div>
               </div>
@@ -98,7 +103,7 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
                   setAdvantages(target.value);
                 }}
               />
-              <span className={`${advantages.length < 1 ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>
+              <span className={`${advantages.length === 0 && notValidFlag ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>
               <label className="form-review__label " htmlFor="user-name">Недостатки</label>
               <input className="form-review__input" id="user-name" type="text" autoComplete="off"
                 value={disadvantages}
@@ -106,7 +111,7 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
                   setDisadvantages(target.value);
                 }}
               />
-              <span className={`${disadvantages.length < 1 ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>
+              <span className={`${disadvantages.length === 0 && notValidFlag ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>
               <label className="form-review__label" htmlFor="user-name">Комментарий</label>
               <textarea className="form-review__input form-review__input--textarea" id="user-name" rows={10} autoComplete="off"
                 value={comment}
@@ -115,13 +120,15 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
                 }}
               >
               </textarea>
-              <span className={`${comment.length < 1 ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>
+              <span className={`${comment.length === 0 && notValidFlag ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>
               <button className="button button--medium-20 form-review__button" type="submit" data-testid='submit'
                 onClick={(evt) => {
                   evt.preventDefault();
                   if(isReviewNotValid()) {
+                    showNotValidFields();
                     return toast.error(REVIEW_FIELDS_ERROR_TEXT);
                   } else {
+                    setNotValidFlag(false);
                     submitButtonHandler()
                       .then(() => toast.success(REVIEW_POST_SUCCESS_TEXT))
                       .catch(() => toast.error(REVIEW_POST_ERROR_TEXT));
