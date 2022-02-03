@@ -1,6 +1,6 @@
 import React from 'react';
 import {Guitar} from '../../types/guitar';
-import {AppRoute, GuitarType} from '../../const/const';
+import {GuitarType} from '../../const/const';
 import {useTabs} from '../../hooks/use-tabs/useTabs';
 
 type TabsProps = {
@@ -13,17 +13,23 @@ export enum Tab {
 }
 
 function Tabs({productInfo}:TabsProps):JSX.Element {
-  const {vendorCode, type, stringCount, description, id} = productInfo;
+  const {vendorCode, type, stringCount, description} = productInfo;
   const {activeTab, tabClickHandler} = useTabs();
 
   return (
     <div className="tabs">
-      <a className={`button ${activeTab === Tab.Characteristics ? '' : 'button--black-border'} button--medium tabs__button`} href={`${AppRoute.Guitars}/${id}#characteristics`}
-        onClick={(evt) => tabClickHandler(evt.currentTarget.hash)}
+      <a className={`button ${activeTab === Tab.Characteristics ? '' : 'button--black-border'} button--medium tabs__button`} href="#characteristics"
+        onClick={(evt) => {
+          evt.preventDefault();
+          tabClickHandler(evt.currentTarget.hash);
+        }}
       >Характеристики
       </a>
-      <a className={`button ${activeTab === Tab.Description ? '' : 'button--black-border'} button--medium tabs__button`} href={`${AppRoute.Guitars}/${id}#description`}
-        onClick={(evt) => tabClickHandler(evt.currentTarget.hash)}
+      <a className={`button ${activeTab === Tab.Description ? '' : 'button--black-border'} button--medium tabs__button`} href="#description"
+        onClick={(evt) => {
+          evt.preventDefault();
+          tabClickHandler(evt.currentTarget.hash);
+        }}
       >Описание
       </a>
       <div className="tabs__content" id="characteristics">
