@@ -47,7 +47,7 @@ function ReviewsList({reviews, productInfo}:ReviewsProps):JSX.Element {
         Показать еще отзывы
       </button>
       {reviews.length > 0
-        ? <a className="button button--up button--red-border button--big reviews__up-button" href={`${AppRoute.Guitars}/${reviews[0].guitarId}#header`}>Наверх</a>
+        ? <a className="button button--up button--red-border button--big reviews__up-button" style={{zIndex: 1}} href={`${AppRoute.Guitars}/${reviews[0].guitarId}#header`}>Наверх</a>
         : <h3>Поделитесь отзывом о товаре!</h3>}
     </section>
   );
