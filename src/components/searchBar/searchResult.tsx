@@ -23,13 +23,23 @@ function SearchResult ({searchTerm, isResults, onClose, onOpen}:SearchTermProps)
   const clickHandler = (id: number) => {
     history.push(`${AppRoute.Guitars}/${id}`);
   };
+
+  const keyDownHandler = (evt: React.KeyboardEvent<HTMLLIElement>, id: number) => {
+    if (evt.key === 'Enter') {
+      history.push(`${AppRoute.Guitars}/${id}`);
+    }
+  };
+
   return (
     <ul style={{zIndex: 1}} className={`form-search__select-list ${!searchTerm || !isResults ? 'hidden' : ''}`}
       onMouseLeave={onClose}
       onMouseEnter={onOpen}
     >
       {sortedResult && sortedResult.map((resultItem) => (
-        <li className="form-search__select-item" tabIndex={0} key={resultItem.id} onClick={() => clickHandler(resultItem.id)}>
+        <li className="form-search__select-item" tabIndex={0} key={resultItem.id}
+          onClick={() => clickHandler(resultItem.id)}
+          onKeyDown={(evt) => keyDownHandler(evt, resultItem.id)}
+        >
           {resultItem.name}
         </li>
       ))}
