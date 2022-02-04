@@ -85,7 +85,7 @@ function ModalReview({productInfo, isVisible, onClose, onSubmitNewReview, error}
                   {(userName.length === 0 && notValidFlag) && <span className={`${userName.length < 2 ? 'form-review__warning' : 'visually-hidden'}`}>Заполните поле</span>}
                 </div>
                 <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
-                  <div className="rate rate--reverse">
+                  <div dir={'rtl'} className="rate rate--reverse">
                     {
                       Object.entries(reviewRating)
                         .reverse()
