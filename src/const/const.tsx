@@ -2,6 +2,7 @@ import {Type, ViewState} from '../components/catalog/catalog';
 import {Guitar, GuitarsList} from '../types/guitar';
 import {Comment} from '../types/comment';
 import dayjs from 'dayjs';
+import {CartItems} from '../store/cart-reducer/cart-reducer';
 
 export const INITIAL_GUITARS_COUNT = 9;
 export const QUERY_MIN_PRICE  = 'price_gte';
@@ -21,6 +22,8 @@ export const REVIEW_FIELDS_ERROR_TEXT = 'Для отправки нужно за
 export const REVIEW_POST_ERROR_TEXT = 'Произошла ошибка. Попробуйте снова';
 export const REVIEW_POST_SUCCESS_TEXT = 'Отзыв успешно отправлен';
 export const REVIEWS_PER_STEP = 3;
+export const NOT_FOUND = -1;
+
 
 export enum APIRoute {
   Guitars = '/guitars',
@@ -30,6 +33,7 @@ export enum APIRoute {
 export enum AppRoute {
   Root = '/',
   Guitars = '/guitars',
+  Cart = '/cart',
 }
 
 export enum SortType {
@@ -188,4 +192,7 @@ export const sortByDate = (reviewA:Comment, reviewB:Comment) => {
 
   return dateB.diff(dateA, 'minute');
 };
+
+export const isGuitarInCart = (cartItems:CartItems, currentGuitar:Guitar) => cartItems.findIndex((item) => item.guitar.id === currentGuitar.id);
+
 
