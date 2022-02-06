@@ -1,9 +1,13 @@
 import SearchBar from '../searchBar/searchBar';
 import {Link, useLocation} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
+import {useSelector} from 'react-redux';
+import {getCartItems} from '../../store/cart-reducer/cart-reducer';
+import CartCountLink from '../cart-count-link/cart-count-link';
 
 function Header(): JSX.Element {
   const location = useLocation();
+  const cartItems = useSelector(getCartItems);
 
   return (
     <header className="header" id="header">
@@ -22,13 +26,7 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <SearchBar />
-        <Link className="header__cart-link" to="#" aria-label="Корзина">
-          <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
-            <use xlinkHref="#icon-basket">
-            </use>
-          </svg>
-          <span className="visually-hidden">Перейти в корзину</span><span className="header__cart-count">2</span>
-        </Link>
+        {cartItems.length !== 0 ? <CartCountLink /> : ''}
       </div>
     </header>
   );

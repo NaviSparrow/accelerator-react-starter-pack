@@ -15,7 +15,7 @@ describe('Component: GuitarCard', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <Route render={() => <GuitarCard guitar={fakeGuitar}/>}>
+          <Route render={() => <GuitarCard guitarInfo={fakeGuitar}/>}>
           </Route>
         </Router>
       </Provider>);
