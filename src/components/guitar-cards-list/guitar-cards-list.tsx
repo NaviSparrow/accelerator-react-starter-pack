@@ -55,7 +55,7 @@ function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListPr
   return (
     <>
       <div className="cards catalog__cards">
-        {guitarsList && guitarsList.response.map((guitar) => (<GuitarCard key={guitar.id} guitar={guitar} />))}
+        {guitarsList && guitarsList.response.map((guitar) => (<GuitarCard key={guitar.id} guitarInfo={guitar} />))}
       </div>
       <div className="pagination page-content__pagination">
         <ul className="pagination__list">
