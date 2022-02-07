@@ -37,7 +37,7 @@ function ModalAddToCart({isVisible, onClose, productInfo, onSuccessAddToCart}:Mo
           <div className="modal__content">
             <h2 className="modal__header title title--medium">Добавить товар в корзину</h2>
             <div className="modal__info">
-              <img className="modal__img" src={previewImg} width="67" height="137" alt={name}/>
+              <img className="modal__img" src={previewImg} style={{width: '67px', height: '137px'}} width="67" height="137" alt={name}/>
               <div className="modal__info-wrapper">
                 <h3 className="modal__product-name title title--little title--uppercase">Гитара {name}</h3>
                 <p className="modal__product-params modal__product-params--margin-11">Артикул: {vendorCode}</p>
