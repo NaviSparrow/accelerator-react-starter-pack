@@ -1,20 +1,28 @@
 import React from 'react';
-import {Guitar} from '../../types/guitar';
 import useLockBodyScroll from '../../hooks/use-lock-body-scroll/use-lock-body-scroll';
 import useEscapeEventListener from '../../hooks/use-escape-event-listener/use-escape-event-listener';
 import {GuitarType} from '../../const/const';
 import ReactFocusLock from 'react-focus-lock';
+import {useDispatch} from 'react-redux';
+import {deleteFromCart} from '../../store/action';
+import {CartItemType} from '../../store/cart-reducer/cart-reducer';
 
 type ModalDeleteFromCartProps = {
   isVisible: boolean;
   onClose: () => void;
-  productInfo: Guitar;
+  productInfo: CartItemType;
 }
 
 function ModalDeleteFromCart({isVisible, onClose, productInfo}:ModalDeleteFromCartProps):JSX.Element {
-  const {name, previewImg, vendorCode, price, stringCount, type} = productInfo;
+  const {name, previewImg, vendorCode, price, stringCount, type, id} = productInfo.guitar;
+  const dispatch = useDispatch();
   useLockBodyScroll();
   useEscapeEventListener(onClose);
+
+  const deleteClickHandler = () => {
+    dispatch(deleteFromCart(id));
+  };
+
   return (
     <ReactFocusLock>
       <div className={`modal ${isVisible ? 'is-active' : ''}`}>
@@ -35,7 +43,7 @@ function ModalDeleteFromCart({isVisible, onClose, productInfo}:ModalDeleteFromCa
               </div>
             </div>
             <div className="modal__button-container">
-              <button className="button button--small modal__button">Удалить товар</button>
+              <button className="button button--small modal__button" onClick={deleteClickHandler}>Удалить товар</button>
               <button className="button button--black-border button--small modal__button modal__button--right" onClick={onClose}>
               Продолжить покупки
               </button>

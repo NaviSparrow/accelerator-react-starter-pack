@@ -34,31 +34,29 @@ function GuitarCard(props:GuitarCardProps): JSX.Element {
   };
 
   return (
-    <>
-      <div className="product-card">
-        <img src={`./${previewImg}`} width="75" height="190" alt={name}/>
-        <div className="product-card__info">
-          <div className="rate product-card__rate" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
-            <Rating guitarRating={rating}/>
-            <span className="rate__count">{guitarInfo.comments && guitarInfo.comments.length}</span>
-            <span className="rate__message">
-            </span>
-          </div>
-          <p className="product-card__title">{name}</p>
-          <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${price}`} ₽</p>
-        </div>
-        <div className="product-card__buttons"><Link className="button button--mini" to={`${AppRoute.Guitars}/${id}`}>Подробнее</Link>
-          <a
-            className={`button button--mini ${isGuitarInCart(cartItems, guitarInfo) === NOT_FOUND ? 'button--red button--add-to-cart' : 'button--red-border button--in-cart'}`}
-            href="/#"
-            onClick={clickHandler}
-          >{isGuitarInCart(cartItems, guitarInfo) === NOT_FOUND ? 'Купить' :  'В Корзине'}
-          </a>
-        </div>
-      </div>
+    <div className="product-card">
       {isModalAddToCartVisible && <ModalAddToCart isVisible={isModalAddToCartVisible} onClose={closeModalAddToCart} productInfo={guitarInfo} onSuccessAddToCart={changeModals} />}
       {isModalSuccessAddVisible && <ModalSuccessAddToCart isVisible={isModalSuccessAddVisible} onClose={closeModalSuccessAdd} />}
-    </>
+      <img src={`./${previewImg}`} width="75" height="190" alt={name}/>
+      <div className="product-card__info">
+        <div className="rate product-card__rate" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
+          <Rating guitarRating={rating}/>
+          <span className="rate__count">{guitarInfo.comments && guitarInfo.comments.length}</span>
+          <span className="rate__message">
+          </span>
+        </div>
+        <p className="product-card__title">{name}</p>
+        <p className="product-card__price"><span className="visually-hidden">Цена:</span>{`${price}`} ₽</p>
+      </div>
+      <div className="product-card__buttons"><Link className="button button--mini" to={`${AppRoute.Guitars}/${id}`}>Подробнее</Link>
+        <a
+          className={`button button--mini ${isGuitarInCart(cartItems, guitarInfo) === NOT_FOUND ? 'button--red button--add-to-cart' : 'button--red-border button--in-cart'}`}
+          href="/#"
+          onClick={clickHandler}
+        >{isGuitarInCart(cartItems, guitarInfo) === NOT_FOUND ? 'Купить' :  'В Корзине'}
+        </a>
+      </div>
+    </div>
   );
 }
 

@@ -4,11 +4,13 @@ import App from './components/app/app';
 import {Provider} from 'react-redux';
 import {Router as BrowserRouter} from 'react-router-dom';
 import browserHistory from './browser-history/browser-history';
-import {setUpStore} from './store/store';
+import {saveCartToLocalStorage, setUpStore} from './store/store';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const store = setUpStore();
+
+store.subscribe(() => saveCartToLocalStorage(store.getState()));
 
 ReactDOM.render(
   <React.StrictMode>
