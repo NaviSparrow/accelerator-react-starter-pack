@@ -1,8 +1,14 @@
 import React from 'react';
 import Icons from '../../icons/icons';
 import Header from '../header/header';
+import {useSelector} from 'react-redux';
+import {getCartItems} from '../../store/cart-reducer/cart-reducer';
+import {Link} from 'react-router-dom';
+import {AppRoute, NO_ITEMS_IN_CART} from '../../const/const';
+import CartItem from '../cart-item/cart-item';
 
 function CartScreen():JSX.Element {
+  const cartItems = useSelector(getCartItems);
   return (
     <>
       <Icons />
@@ -12,72 +18,17 @@ function CartScreen():JSX.Element {
           <div className="container">
             <h1 className="title title--bigger page-content__title">Корзина</h1>
             <ul className="breadcrumbs page-content__breadcrumbs page-content__breadcrumbs--on-cart-page">
-              <li className="breadcrumbs__item"><a className="link" href="./main.html">Главная</a>
+              <li className="breadcrumbs__item"><a className="link" href="/#" onClick={(evt) => evt.preventDefault()}>Главная</a>
               </li>
-              <li className="breadcrumbs__item"><a className="link" href="./main.html">Каталог</a>
+              <li className="breadcrumbs__item"><Link className="link" to={AppRoute.Root}>Каталог</Link>
               </li>
               <li className="breadcrumbs__item"><a className="link" href={'/#'}>Корзина</a>
               </li>
             </ul>
             <div className="cart">
-              <div className="cart-item">
-                <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
-                  <span className="button-cross__icon"/>
-                  <span className="cart-item__close-button-interactive-area"/>
-                </button>
-                <div className="cart-item__image">
-                  <img src="img/content/guitar-2.jpg" width="55" height="130" alt="ЭлектроГитара Честер bass"/>
-                </div>
-                <div className="product-info cart-item__info">
-                  <p className="product-info__title">ЭлектроГитара Честер bass</p>
-                  <p className="product-info__info">Артикул: SO757575</p>
-                  <p className="product-info__info">Электрогитара, 6 струнная</p>
-                </div>
-                <div className="cart-item__price">17 500 ₽</div>
-                <div className="quantity cart-item__quantity">
-                  <button className="quantity__button" aria-label="Уменьшить количество">
-                    <svg width="8" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-minus"/>
-                    </svg>
-                  </button>
-                  <input className="quantity__input" type="number" placeholder="1" id="2-count" name="2-count" max="99"/>
-                  <button className="quantity__button" aria-label="Увеличить количество">
-                    <svg width="8" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-plus"/>
-                    </svg>
-                  </button>
-                </div>
-                <div className="cart-item__price-total">17 500 ₽</div>
-              </div>
-              <div className="cart-item">
-                <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
-                  <span className="button-cross__icon"/>
-                  <span className="cart-item__close-button-interactive-area"/>
-                </button>
-                <div className="cart-item__image">
-                  <img src="img/content/guitar-4.jpg" width="55" height="130" alt="СURT Z30 Plus"/>
-                </div>
-                <div className="product-info cart-item__info">
-                  <p className="product-info__title">СURT Z30 Plus</p>
-                  <p className="product-info__info">Артикул: SO754565</p>
-                  <p className="product-info__info">Электрогитара, 6 струнная</p>
-                </div>
-                <div className="cart-item__price">34 500 ₽</div>
-                <div className="quantity cart-item__quantity">
-                  <button className="quantity__button" aria-label="Уменьшить количество">
-                    <svg width="8" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-minus"/>
-                    </svg>
-                  </button>
-                  <input className="quantity__input" type="number" placeholder="1" id="4-count" name="4-count" max="99"/>
-                  <button className="quantity__button" aria-label="Увеличить количество">
-                    <svg width="8" height="8" aria-hidden="true">
-                      <use xlinkHref="#icon-plus"/>
-                    </svg>
-                  </button>
-                </div>
-                <div className="cart-item__price-total">34 500 ₽</div>
-              </div>
+              {cartItems.length === 0
+                ? <h2 className="title--bigger">{NO_ITEMS_IN_CART}</h2>
+                : cartItems.map((item) => <CartItem key={item.guitar.id} cartItemInfo={item} />)}
               <div className="cart__footer">
                 <div className="cart__coupon coupon">
                   <h2 className="title title--little coupon__title">Промокод на скидку</h2>
