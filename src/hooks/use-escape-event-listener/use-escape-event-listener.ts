@@ -1,8 +1,9 @@
 import {useEffect} from 'react';
+import {ESCAPE} from '../../const/const';
 
 function useEscapeEventListener(onClose: () => void) {
   const onKeyDown = ({key}:KeyboardEvent) => {
-    if (key === 'Escape') {
+    if (key === ESCAPE) {
       onClose();
     }
   };
