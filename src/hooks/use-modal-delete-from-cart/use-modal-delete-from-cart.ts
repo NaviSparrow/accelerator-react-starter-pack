@@ -1,6 +1,7 @@
 import {useState} from 'react';
 
-export const useModalDeleteFromCart = (count: number) => {
+
+export const useModalDeleteFromCart = () => {
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
 
   const openModalDelete = () => {

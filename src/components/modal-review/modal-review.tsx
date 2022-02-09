@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import {Guitar} from '../../types/guitar';
 import {CommentPost} from '../../types/comment-post';
-import {AsyncFunctionMutation} from '../../types/util-types';
+import {AsyncCommentsMutation} from '../../types/util-types';
 import ReviewRatingStar from '../review-rating-star/review-rating-star';
 import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 import {SerializedError} from '@reduxjs/toolkit';
@@ -20,7 +20,7 @@ type ModalReviewProps = {
   productInfo: Guitar;
   isVisible: boolean;
   onClose: () => void;
-  onSubmitNewReview: AsyncFunctionMutation;
+  onSubmitNewReview: AsyncCommentsMutation;
   error:  FetchBaseQueryError | SerializedError | undefined;
 }
 

@@ -6,9 +6,16 @@ import {getCartItems} from '../../store/cart-reducer/cart-reducer';
 import {Link} from 'react-router-dom';
 import {AppRoute, NO_ITEMS_IN_CART} from '../../const/const';
 import CartItem from '../cart-item/cart-item';
+import CartCoupon from '../cart-coupon/cart-coupon';
+import CartTotalInfo from '../cart-total-info/cart-total-info';
+import {useAddCouponForDiscountMutation, usePostNewOrderMutation} from '../../service/api';
+
 
 function CartScreen():JSX.Element {
   const cartItems = useSelector(getCartItems);
+  const [applyCoupon, {data: couponResponse, isSuccess, isError}] = useAddCouponForDiscountMutation();
+  const [postOrder] = usePostNewOrderMutation();
+
   return (
     <>
       <Icons />
@@ -28,35 +35,10 @@ function CartScreen():JSX.Element {
             <div className="cart">
               {cartItems.length === 0
                 ? <h2 className="title--bigger">{NO_ITEMS_IN_CART}</h2>
-                : cartItems.map((item) => <CartItem key={item.guitar.id} cartItemInfo={item} />)}
+                : cartItems.map((item) => <CartItem key={item.guitar.id} cartItemInfo={item}/>)}
               <div className="cart__footer">
-                <div className="cart__coupon coupon">
-                  <h2 className="title title--little coupon__title">Промокод на скидку</h2>
-                  <p className="coupon__info">Введите свой промокод, если он у вас есть.</p>
-                  <form className="coupon__form" id="coupon-form" method="post" action="/">
-                    <div className="form-input coupon__input">
-                      <label className="visually-hidden">Промокод</label>
-                      <input type="text" placeholder="Введите промокод" id="coupon" name="coupon"/>
-                      <p className="form-input__message form-input__message--success">Промокод принят</p>
-                    </div>
-                    <button className="button button--big coupon__button">Применить</button>
-                  </form>
-                </div>
-                <div className="cart__total-info">
-                  <p className="cart__total-item">
-                    <span className="cart__total-value-name">Всего:</span>
-                    <span className="cart__total-value">52 000 ₽</span>
-                  </p>
-                  <p className="cart__total-item">
-                    <span className="cart__total-value-name">Скидка:</span>
-                    <span className="cart__total-value cart__total-value--bonus">- 3000 ₽</span>
-                  </p>
-                  <p className="cart__total-item">
-                    <span className="cart__total-value-name">К оплате:</span>
-                    <span className="cart__total-value cart__total-value--payment">49 000 ₽</span>
-                  </p>
-                  <button className="button button--red button--big cart__order-button">Оформить заказ</button>
-                </div>
+                {cartItems.length !== 0 && <CartCoupon onApplyCoupon={applyCoupon} isSuccess={isSuccess} isError={isError} />}
+                {cartItems.length !== 0 && <CartTotalInfo discount={couponResponse} onOrderPost={postOrder}/>}
               </div>
             </div>
           </div>

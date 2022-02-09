@@ -1,6 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import {ActionType} from '../types/action';
-import {CartItemType} from './cart-reducer/cart-reducer';
+import {CartData, CartItemType, CouponType} from './cart-reducer/cart-reducer';
 
 export const addToCart = createAction(
   ActionType.AddToCart,
@@ -34,6 +34,20 @@ export const deleteFromCart = createAction(
   ActionType.DeleteFromCart,
   (id: number) => ({
     payload: id,
+  }),
+);
+
+export const setCoupon = createAction(
+  ActionType.SetCoupon,
+  (coupon: CouponType) => ({
+    payload: coupon,
+  }),
+);
+
+export const clearCart = createAction(
+  ActionType.ClearCart,
+  (cart: CartData) => ({
+    payload: cart,
   }),
 );
 

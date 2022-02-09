@@ -3,6 +3,8 @@ import {Guitar, GuitarsList} from '../types/guitar';
 import {APIRoute, getURL, SortByOrder, SortByType, SortType} from '../const/const';
 import {CommentList} from '../types/comment';
 import {CommentPost} from '../types/comment-post';
+import {Coupon} from '../types/coupon';
+import {OrderPost} from '../types/orderPost';
 
 const BACKEND_URL = 'https://accelerator-guitar-shop-api-v1.glitch.me/';
 const X_TOTAL_COUNT = 'X-Total-Count';
@@ -80,6 +82,20 @@ export const mainAPI = createApi({
       }),
       invalidatesTags: [{type: 'Comments', id: 'LIST'}],
     }),
+    addCouponForDiscount: build.mutation<number, Coupon>( {
+      query: (couponData: Coupon) => ({
+        url: APIRoute.Coupons,
+        method: 'POST',
+        body: couponData,
+      }),
+    }),
+    postNewOrder: build.mutation<number, OrderPost>({
+      query: (order: OrderPost) => ({
+        url: APIRoute.Orders,
+        method: 'POST',
+        body:order,
+      }),
+    }),
   }),
 });
 
@@ -91,4 +107,6 @@ export const {
   useFetchProductInfoQuery,
   useFetchProductCommentsQuery,
   useAddReviewMutation,
+  useAddCouponForDiscountMutation,
+  usePostNewOrderMutation,
 } = mainAPI;

@@ -25,11 +25,20 @@ export const REVIEWS_PER_STEP = 3;
 export const NOT_FOUND = -1;
 export const ONE_ITEM = 1;
 export const NO_ITEMS_IN_CART = 'Товары в корзине отсутствуют';
-
+export const COUPON_SUCCESS_TEXT = 'Вы успешно применили промокод';
+export const COUPON_ERROR_TEXT = 'Неверный промокод. Попробуйте ещё раз';
+export const ENTER = 'Enter';
+export const ESCAPE = 'Escape';
+export const LESS_THEN_ONE = '0';
+export const MAX_QUANTITY = '99';
+export const OVER_MAX_QUANTITY_ERROR = 'Максимальное число гитар 99';
+export const POST_ORDER_ERROR = 'Произошла ошибка';
 
 export enum APIRoute {
   Guitars = '/guitars',
   Comments = '/comments',
+  Coupons = '/coupons',
+  Orders ='/orders',
 }
 
 export enum AppRoute {
@@ -197,4 +206,12 @@ export const sortByDate = (reviewA:Comment, reviewB:Comment) => {
 
 export const isGuitarInCart = (cartItems:CartItemsType, currentGuitar:Guitar) => cartItems.findIndex((item) => item.guitar.id === currentGuitar.id);
 
+export const getListOfPrices = (cartItems:CartItemsType) => {
+  const result: number[] = [];
+  cartItems.map((item) => result.push(item.guitar.price * item.count));
+  return result;
+};
 
+export const getTotalPrice = (listOfPrices: number[]) => listOfPrices.reduce((previousValue, currentValue) => previousValue + currentValue);
+
+export const getDiscountValue = (discount: number, totalPrice:number) => totalPrice / 100 * discount;
