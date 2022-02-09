@@ -1,17 +1,28 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {Guitar} from '../../types/guitar';
-import {addToCart, decrementQuantity, deleteFromCart, incrementQuantity, setQuantity} from '../action';
+import {
+  addToCart,
+  clearCart,
+  decrementQuantity,
+  deleteFromCart,
+  incrementQuantity,
+  setCoupon,
+  setQuantity
+} from '../action';
 import {State} from '../store';
+import {Guitar} from '../../types/guitar';
 
-export type CartItemType = {guitar:Guitar, count: number};
+export type CouponType = string | null;
+export type CartItemType = { guitar: Guitar, count: number };
 export type CartItemsType = CartItemType[];
 
 export type CartData = {
   cartItems: CartItemsType
+  coupon: CouponType
 }
 
 const initialState: CartData = {
   cartItems: [],
+  coupon: null,
 };
 
 const cartData = createReducer(initialState, (builder) => {
@@ -37,9 +48,17 @@ const cartData = createReducer(initialState, (builder) => {
         ...state.cartItems.slice(0, index),
         ...state.cartItems.slice(index + 1),
       ];
+    })
+    .addCase(setCoupon, (state, action) => {
+      state.coupon = action.payload;
+    })
+    .addCase(clearCart, (state, action) => {
+      state.cartItems = action.payload.cartItems;
+      state.coupon = action.payload.coupon;
     });
 });
 
 export {cartData};
 
 export const getCartItems = (state:State): CartItemsType => state.cartData.cartItems;
+export const getCoupon = (state:State): CouponType => state.cartData.coupon;

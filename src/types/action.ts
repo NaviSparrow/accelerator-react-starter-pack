@@ -3,5 +3,7 @@ export enum ActionType {
   IncrementQuantity = 'cart/incrementQuantity',
   DecrementQuantity = 'cart/decrementQuantity',
   SetQuantity = 'cart/setQuantity',
-  DeleteFromCart = 'cart/deleteFromCart'
+  DeleteFromCart = 'cart/deleteFromCart',
+  SetCoupon = 'cart/setCoupon',
+  ClearCart = 'cart/clearCart',
 }
