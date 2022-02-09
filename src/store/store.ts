@@ -1,27 +1,12 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {mainAPI} from '../service/api';
-import {cartData} from './cart-reducer/cart-reducer';
-import {toast} from 'react-toastify';
+import {CartData, cartData} from './cart-reducer/cart-reducer';
 
-const loadCartFromLocalStorage = () => {
-  try {
-    const storageState = window.localStorage.getItem('state');
-    return storageState ? JSON.parse(storageState) : undefined;
-  } catch (error) {
-    toast.error(`${error} возникла ошибка`);
-    return undefined;
-  }
-};
+const loadCartFromLocalStorage = () => JSON.parse(window.localStorage.getItem('state') as string);
 
-export const saveCartToLocalStorage = (state: State) => {
-  try {
-    window.localStorage.setItem('state', JSON.stringify(state));
-  } catch (error) {
-    toast.error(`${error} возникла ошибка`);
-  }
-};
+export const saveCartDataToLocalStorage = (cart: CartData) =>  window.localStorage.setItem('state', JSON.stringify({cartData: cart}));
 
-const preloadedState = loadCartFromLocalStorage();
+const cartDataFromLocalStorage = loadCartFromLocalStorage();
 
 const rootReducer = combineReducers({
   [mainAPI.reducerPath]: mainAPI.reducer,
@@ -30,7 +15,7 @@ const rootReducer = combineReducers({
 
 export const setUpStore = () => configureStore( {
   reducer: rootReducer,
-  preloadedState: preloadedState,
+  preloadedState: cartDataFromLocalStorage,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(mainAPI.middleware),
 });
