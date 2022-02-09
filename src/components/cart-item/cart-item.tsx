@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
-import {CartItemType} from '../../store/cart-reducer/cart-reducer';
+import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {decrementQuantity, incrementQuantity, setQuantity} from '../../store/action';
 import ModalDeleteFromCart from '../modal-delete-from-cart/modal-delete-from-cart';
 import {useModalDeleteFromCart} from '../../hooks/use-modal-delete-from-cart/use-modal-delete-from-cart';
-import {ONE_ITEM} from '../../const/const';
+import {ENTER, LESS_THEN_ONE, MAX_QUANTITY, ONE_ITEM, OVER_MAX_QUANTITY_ERROR} from '../../const/const';
+import {toast} from 'react-toastify';
+import {CartItemType} from '../../store/cart-reducer/cart-reducer';
 
 type CartItemProps = {
   cartItemInfo: CartItemType;
@@ -14,7 +15,7 @@ function CartItem({cartItemInfo}:CartItemProps):JSX.Element {
   const {name, price, vendorCode, previewImg, stringCount, type, id} = cartItemInfo.guitar;
   const count = cartItemInfo.count;
 
-  const {isModalDeleteVisible, openModalDelete, closeModalDelete} = useModalDeleteFromCart(count);
+  const {isModalDeleteVisible, openModalDelete, closeModalDelete} = useModalDeleteFromCart();
   const [inputQuantity, setInputQuantity] = useState<string>('');
   const dispatch = useDispatch();
 
@@ -35,14 +36,18 @@ function CartItem({cartItemInfo}:CartItemProps):JSX.Element {
   };
 
   const changeQuantityHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.value === '0') {
-      openModalDelete();
+    if (evt.target.value === LESS_THEN_ONE) {
+      return openModalDelete();
+    }
+    if (Number(evt.target.value) > Number(MAX_QUANTITY)) {
+      toast.error(OVER_MAX_QUANTITY_ERROR);
+      return setInputQuantity(MAX_QUANTITY);
     }
     setInputQuantity(evt.target.value);
   };
 
   const keyDownHandler = (evt: React.KeyboardEvent<HTMLInputElement>) => {
-    if (evt.key === 'Enter') {
+    if (evt.key === ENTER) {
       setQuantityHandler();
       setInputQuantity('');
     }
@@ -52,6 +57,13 @@ function CartItem({cartItemInfo}:CartItemProps):JSX.Element {
     setQuantityHandler();
     setInputQuantity('');
   };
+
+  useEffect(() => {
+    if (count > 99) {
+      toast.error(OVER_MAX_QUANTITY_ERROR);
+      dispatch(setQuantity(id, Number(MAX_QUANTITY)));
+    }
+  }, [count, dispatch, id]);
 
   return (
     <>
