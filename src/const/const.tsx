@@ -33,6 +33,7 @@ export const LESS_THEN_ONE = '0';
 export const MAX_QUANTITY = '99';
 export const OVER_MAX_QUANTITY_ERROR = 'Максимальное число гитар 99';
 export const POST_ORDER_ERROR = 'Произошла ошибка';
+export const MAX_ORDER_QUANTITY = 99;
 
 export enum APIRoute {
   Guitars = '/guitars',
@@ -212,6 +213,8 @@ export const getListOfPrices = (cartItems:CartItemsType) => {
   return result;
 };
 
-export const getTotalPrice = (listOfPrices: number[]) => listOfPrices.reduce((previousValue, currentValue) => previousValue + currentValue);
+export const getTotalPrice = (listOfPrices: number[]) => listOfPrices.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
 
 export const getDiscountValue = (discount: number, totalPrice:number) => totalPrice / 100 * discount;
+
+export const getGuitarsIds = (cartItems:CartItemsType) => cartItems.map((item) => item.guitar.id);

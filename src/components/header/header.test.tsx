@@ -9,7 +9,7 @@ import {makeFakeGuitarsList} from '../../mocks/mocks';
 import fetchMock from 'jest-fetch-mock';
 import {renderHook} from '@testing-library/react-hooks';
 import {ReactNode} from 'react';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -24,7 +24,7 @@ const wrapper = ({children}: ProviderProps):JSX.Element => (
 );
 
 const history = createMemoryHistory();
-const store = setUpStore() ;
+const store = testStore;
 
 describe('Component: Header', () => {
   it('useFetchAlikeGuitarsQuery should work correctly',async () => {
@@ -52,6 +52,6 @@ describe('Component: Header', () => {
     expect(screen.getByText(/Каталог/i)).toBeInTheDocument();
     expect(screen.getByText(/Где купить?/i)).toBeInTheDocument();
     expect(screen.getByText(/О компании/i)).toBeInTheDocument();
-    expect(screen.getByText(/Перейти в корзину/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Поиск/i).length).toBe(2);
   });
 });

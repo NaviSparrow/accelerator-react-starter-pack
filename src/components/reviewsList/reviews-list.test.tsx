@@ -1,11 +1,10 @@
 import {fakeGuitar, makeFakeCommentsList} from '../../mocks/mocks';
 import ReviewsList from './reviewsList';
 import {Provider} from 'react-redux';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 import {render, screen} from '@testing-library/react';
 
-const store = setUpStore();
-
+const store = testStore;
 const fakeComments = makeFakeCommentsList(2);
 
 describe('Component: ReviewsList', () => {

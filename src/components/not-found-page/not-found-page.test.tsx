@@ -2,11 +2,11 @@ import NotFoundPage from './not-found-page';
 import {Route, Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 import {render, screen} from '@testing-library/react';
 
 const history = createMemoryHistory();
-const store = setUpStore();
+const store = testStore;
 
 describe('Component: NotFoundPage', () => {
 

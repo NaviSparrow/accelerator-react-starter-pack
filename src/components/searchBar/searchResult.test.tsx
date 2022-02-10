@@ -5,7 +5,7 @@ import {useFetchAlikeGuitarsQuery} from '../../service/api';
 import {Guitar} from '../../types/guitar';
 import {makeFakeGuitarsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -19,7 +19,7 @@ const wrapper = ({children}: ProviderProps):JSX.Element => (
   <Provider store={store}>{children}</Provider>
 );
 
-const store = setUpStore();
+const store = testStore;
 const fakeTerm = 'fake';
 
 describe('Component: SearchResult', () => {

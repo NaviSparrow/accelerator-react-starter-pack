@@ -6,14 +6,14 @@ exports[`Component: Tabs should render correctly 1`] = `
 >
   <a
     className="button  button--medium tabs__button"
-    href="/guitars/1#characteristics"
+    href="#characteristics"
     onClick={[Function]}
   >
     Характеристики
   </a>
   <a
     className="button button--black-border button--medium tabs__button"
-    href="/guitars/1#description"
+    href="#description"
     onClick={[Function]}
   >
     Описание

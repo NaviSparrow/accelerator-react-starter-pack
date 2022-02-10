@@ -6,7 +6,7 @@ import {Route, Router} from 'react-router-dom';
 import GuitarCardsList from './guitar-cards-list';
 import fetchMock from 'jest-fetch-mock';
 import {datatype} from 'faker';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -14,7 +14,7 @@ beforeEach((): void => {
 
 const fakeGuitarsList = makeFakeGuitarsList(9);
 const fakeChangeURL = jest.fn();
-const store= setUpStore();
+const store= testStore;
 const history = createMemoryHistory();
 const fakeViewState = {};
 

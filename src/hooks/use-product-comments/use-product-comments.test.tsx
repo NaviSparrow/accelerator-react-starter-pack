@@ -1,6 +1,6 @@
 import fetchMock from 'jest-fetch-mock';
 import {ReactNode} from 'react';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 import {Provider} from 'react-redux';
 import {makeFakeCommentsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
@@ -15,7 +15,7 @@ type ProviderProps = {
   children: ReactNode;
 }
 
-const store = setUpStore();
+const store = testStore;
 
 const wrapper = ({children}: ProviderProps):JSX.Element => (
   <Provider store={store}>{children}</Provider>

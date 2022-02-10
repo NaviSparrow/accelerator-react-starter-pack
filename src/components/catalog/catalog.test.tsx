@@ -9,7 +9,7 @@ import {makeFakeGuitarsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {Guitar} from '../../types/guitar';
 import {ReactNode} from 'react';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -20,7 +20,7 @@ type ProviderProps = {
 }
 
 const wrapper = ({children}:ProviderProps):JSX.Element => <Provider store={store}>{children}</Provider>;
-const store = setUpStore();
+const store = testStore;
 const history = createMemoryHistory();
 
 describe('Component: Catalog', () => {

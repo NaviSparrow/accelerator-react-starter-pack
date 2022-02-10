@@ -5,11 +5,11 @@ import {
   getPaginationPages,
   INITIAL_GUITARS_COUNT
 } from '../../const/const';
-import {useCallback, useEffect, useState} from 'react';
-import {ViewState} from '../catalog/catalog';
+import { useCallback, useEffect, useState } from 'react';
+import { ViewState } from '../catalog/catalog';
 
 type GuitarCardsListProps = {
-  guitarsList?: {response: GuitarsList, totalCount: number} | undefined;
+  guitarsList?: { response: GuitarsList, totalCount: number } | undefined;
   viewState: ViewState;
   onChangeURL: (updatedViewState: ViewState) => void;
 }
@@ -17,11 +17,13 @@ type GuitarCardsListProps = {
 const DEFAULT_PAGES_LIMIT = 3;
 const FIRST_PAGE = 1;
 
+const isNeedToSetFirstPage = (guitarsList: GuitarCardsListProps['guitarsList'], currentPage: string) => (guitarsList && guitarsList.response.length === 0) && currentPage !== FIRST_PAGE.toString();
+
 function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListProps):JSX.Element {
   const [currentPage, setCurrentPage] = useState<string>(getInitialPageNumber(viewState));
   const [startPage, setStartPage] = useState<number>(FIRST_PAGE);
 
-  const pagesTotalCount = guitarsList && Math.ceil( guitarsList.totalCount / INITIAL_GUITARS_COUNT);
+  const pagesTotalCount = guitarsList && Math.ceil(guitarsList.totalCount / INITIAL_GUITARS_COUNT);
 
   const paginationPages = pagesTotalCount && getPaginationPages(startPage, pagesTotalCount);
 
@@ -47,7 +49,7 @@ function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListPr
   };
 
   useEffect(() => {
-    if ((guitarsList && guitarsList.response.length === 0) && currentPage !== FIRST_PAGE.toString()) {
+    if (isNeedToSetFirstPage(guitarsList, currentPage)) {
       changePageHandler(FIRST_PAGE);
     }
   }, [changePageHandler, currentPage, guitarsList, guitarsList?.response]);

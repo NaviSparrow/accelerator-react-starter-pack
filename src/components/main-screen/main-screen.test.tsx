@@ -15,7 +15,7 @@ import {ReactNode} from 'react';
 import {Guitar} from '../../types/guitar';
 import {makeFakeGuitarsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -30,7 +30,7 @@ const wrapper = ({children}: ProviderProps):JSX.Element => (
 );
 
 const history = createMemoryHistory();
-const store = setUpStore();
+const store = testStore;
 
 describe('Component: MainScreen', () => {
   it('useFetchAlikeGuitarsQuery should work correctly',async () => {

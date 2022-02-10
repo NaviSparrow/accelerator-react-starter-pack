@@ -10,7 +10,7 @@ import {Guitar} from '../../types/guitar';
 import {makeFakeGuitarsList} from '../../mocks/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {ReactNode} from 'react';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -24,7 +24,7 @@ const wrapper = ({children}: ProviderProps):JSX.Element => (
   <Provider store={store}>{children}</Provider>
 );
 
-const store = setUpStore();
+const store = testStore;
 const history = createMemoryHistory();
 const viewState = {};
 const changeURL = jest.fn();
