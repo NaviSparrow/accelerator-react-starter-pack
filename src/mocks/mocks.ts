@@ -52,3 +52,10 @@ export const fakeComment = {
   createAt: 'date',
   guitarId: 3,
 };
+
+export const makeFakeCartItem = () => ({
+  guitar: makeFakeGuitar(),
+  count: 2,
+});
+
+export const makeFakeCartItems = (value: number) => new Array(value).fill(null).map(() => makeFakeCartItem());
