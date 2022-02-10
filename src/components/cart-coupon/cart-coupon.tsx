@@ -43,11 +43,11 @@ function CartCoupon({onApplyCoupon, isSuccess, isError}:CartCouponProps) {
       <form className="coupon__form" id="coupon-form" method="post" action="/">
         <div className="form-input coupon__input">
           <label className="visually-hidden">Промокод</label>
-          <input type="text" placeholder="Введите промокод" id="coupon" name="coupon" value={currentCoupon} onChange={changeHandler}/>
+          <input type="text" placeholder="Введите промокод" id="coupon" name="coupon" value={currentCoupon} onChange={changeHandler} data-testid="couponInput"/>
           {isSuccess && <p className="form-input__message form-input__message--success">Промокод принят</p>}
           {isError && <p className="form-input__message form-input__message--error">Неверный промокод</p>}
         </div>
-        <button className="button button--big coupon__button" onClick={clickHandler}>Применить</button>
+        <button className="button button--big coupon__button" data-testid="couponButton" onClick={clickHandler}>Применить</button>
       </form>
     </div>
   );

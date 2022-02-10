@@ -3,7 +3,14 @@ import {useDispatch} from 'react-redux';
 import {decrementQuantity, incrementQuantity, setQuantity} from '../../store/action';
 import ModalDeleteFromCart from '../modal-delete-from-cart/modal-delete-from-cart';
 import {useModalDeleteFromCart} from '../../hooks/use-modal-delete-from-cart/use-modal-delete-from-cart';
-import {ENTER, LESS_THEN_ONE, MAX_QUANTITY, ONE_ITEM, OVER_MAX_QUANTITY_ERROR} from '../../const/const';
+import {
+  ENTER,
+  LESS_THEN_ONE,
+  MAX_ORDER_QUANTITY,
+  MAX_QUANTITY,
+  ONE_ITEM,
+  OVER_MAX_QUANTITY_ERROR
+} from '../../const/const';
 import {toast} from 'react-toastify';
 import {CartItemType} from '../../store/cart-reducer/cart-reducer';
 
@@ -59,7 +66,7 @@ function CartItem({cartItemInfo}:CartItemProps):JSX.Element {
   };
 
   useEffect(() => {
-    if (count > 99) {
+    if (count > MAX_ORDER_QUANTITY) {
       toast.error(OVER_MAX_QUANTITY_ERROR);
       dispatch(setQuantity(id, Number(MAX_QUANTITY)));
     }
@@ -87,7 +94,7 @@ function CartItem({cartItemInfo}:CartItemProps):JSX.Element {
               <use xlinkHref="#icon-minus"/>
             </svg>
           </button>
-          <input className="quantity__input" type="number" placeholder={count.toString()} id="2-count" name="2-count" max="99" value={inputQuantity}
+          <input className="quantity__input" type="number" placeholder={count.toString()} id="2-count" name="2-count" max="99" value={inputQuantity} data-testid="quantityInput"
             onChange={changeQuantityHandler}
             onKeyDown={keyDownHandler}
             onBlur={onFocusOutHandler}

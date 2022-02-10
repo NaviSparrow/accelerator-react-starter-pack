@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {CartItemsType, getCartItems, getCoupon} from '../../store/cart-reducer/cart-reducer';
-import {getDiscountValue, getTotalPrice, POST_ORDER_ERROR} from '../../const/const';
+import {getCartItems, getCoupon} from '../../store/cart-reducer/cart-reducer';
+import {getDiscountValue, getGuitarsIds, getTotalPrice, POST_ORDER_ERROR} from '../../const/const';
 import {usePricesInCart} from '../../hooks/use-prices-in-cart/use-prices-in-cart';
 import {useModalSuccessOrder} from '../../hooks/use-modal-success-order/use-modal-success-order';
 import ModalSuccessOrder from '../modal-success-order/modal-success-order';
@@ -13,8 +13,6 @@ type CartTotalInfoProps = {
   discount: number | undefined;
   onOrderPost: AsyncOrderMutation;
 }
-
-const getGuitarsIds = (cartItems:CartItemsType) => cartItems.map((item) => item.guitar.id);
 
 function CartTotalInfo({discount, onOrderPost}:CartTotalInfoProps) {
   const cartItems = useSelector(getCartItems);
