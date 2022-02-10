@@ -10,7 +10,7 @@ import {makeFakeGuitarsList} from '../../mocks/mocks';
 import fetchMock from 'jest-fetch-mock';
 import {renderHook} from '@testing-library/react-hooks';
 import {ReactNode} from 'react';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -24,7 +24,7 @@ const wrapper = ({children}: ProviderProps):JSX.Element => (
   <Provider store={store}>{children}</Provider>
 );
 
-const store = setUpStore();
+const store = testStore;
 const history = createMemoryHistory();
 
 describe('Component: SearchBar', () => {
