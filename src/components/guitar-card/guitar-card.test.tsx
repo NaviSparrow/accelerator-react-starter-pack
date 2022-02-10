@@ -4,10 +4,10 @@ import {Route, Router} from 'react-router-dom';
 import GuitarCard from './guitar-card';
 import {makeFakeGuitar} from '../../mocks/mocks';
 import {createMemoryHistory} from 'history';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 const fakeGuitar = makeFakeGuitar();
-const store = setUpStore();
+const store = testStore;
 const history = createMemoryHistory();
 
 describe('Component: GuitarCard', () => {

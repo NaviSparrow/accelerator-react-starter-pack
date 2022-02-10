@@ -1,7 +1,7 @@
 import fetchMock from 'jest-fetch-mock';
 import {Provider} from 'react-redux';
 import {createMemoryHistory} from 'history';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 import {render, screen} from '@testing-library/react';
 import {Route, Router} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
@@ -12,7 +12,7 @@ beforeEach((): void => {
 });
 
 const history = createMemoryHistory();
-const store = setUpStore();
+const store = testStore;
 
 describe('Component: GuitarProductScreen', () => {
   it('should render correctly', async () => {

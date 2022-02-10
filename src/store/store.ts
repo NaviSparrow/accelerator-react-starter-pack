@@ -8,7 +8,7 @@ export const saveCartDataToLocalStorage = (cart: CartData) =>  window.localStora
 
 const cartDataFromLocalStorage = loadCartFromLocalStorage();
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   [mainAPI.reducerPath]: mainAPI.reducer,
   cartData,
 });
@@ -22,3 +22,9 @@ export const setUpStore = () => configureStore( {
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type State = RootState;
+
+export const testStore = configureStore( {
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(mainAPI.middleware),
+});

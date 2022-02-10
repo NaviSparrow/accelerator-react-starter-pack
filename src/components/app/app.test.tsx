@@ -3,10 +3,10 @@ import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {Router} from 'react-router-dom';
 import App from './app';
-import {setUpStore} from '../../store/store';
+import {testStore} from '../../store/store';
 
 const history = createMemoryHistory();
-const store = setUpStore();
+const store = testStore;
 
 describe('App Routing', () => {
   it('should render correctly',  () => {
