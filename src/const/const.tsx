@@ -34,6 +34,7 @@ export const MAX_QUANTITY = '99';
 export const OVER_MAX_QUANTITY_ERROR = 'Максимальное число гитар 99';
 export const POST_ORDER_ERROR = 'Произошла ошибка';
 export const MAX_ORDER_QUANTITY = 99;
+export const ERROR_TEXT = 'возникла ошибка';
 
 export enum APIRoute {
   Guitars = '/guitars',

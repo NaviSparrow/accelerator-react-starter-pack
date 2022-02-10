@@ -1,10 +1,26 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {mainAPI} from '../service/api';
 import {CartData, cartData} from './cart-reducer/cart-reducer';
+import {toast} from 'react-toastify';
+import {ERROR_TEXT} from '../const/const';
 
-const loadCartFromLocalStorage = () => JSON.parse(window.localStorage.getItem('state') as string);
+const loadCartFromLocalStorage = () => {
+  try {
+    const storageState = window.localStorage.getItem('state');
+    return storageState ? JSON.parse(storageState) : undefined;
+  } catch (error) {
+    toast.error(ERROR_TEXT);
+    return undefined;
+  }
+};
 
-export const saveCartDataToLocalStorage = (cart: CartData) =>  window.localStorage.setItem('state', JSON.stringify({cartData: cart}));
+export const saveCartDataToLocalStorage = (cart: CartData) => {
+  try {
+    window.localStorage.setItem('state', JSON.stringify({cartData: cart}));
+  } catch (error) {
+    toast.error(ERROR_TEXT);
+  }
+};
 
 const cartDataFromLocalStorage = loadCartFromLocalStorage();
 
