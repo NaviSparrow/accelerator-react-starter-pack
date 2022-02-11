@@ -17,7 +17,7 @@ export const makeFakeCommentsList = (value: number) => new Array(value).fill(nul
 
 export const makeFakeGuitar = () => ({
   comments: makeFakeCommentsList(4),
-  id: datatype.number(50),
+  id: datatype.number(500),
   name: name.title(),
   vendorCode: name.title(),
   type: random.word(),
