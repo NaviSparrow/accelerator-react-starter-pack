@@ -49,9 +49,13 @@ function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListPr
   };
 
   useEffect(() => {
-    if (isNeedToSetFirstPage(guitarsList, currentPage)) {
+    let mounted = true;
+    if (mounted && isNeedToSetFirstPage(guitarsList, currentPage)) {
       changePageHandler(FIRST_PAGE);
     }
+    return function cleanUp() {
+      mounted = false;
+    };
   }, [changePageHandler, currentPage, guitarsList, guitarsList?.response]);
 
   return (
