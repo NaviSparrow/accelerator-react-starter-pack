@@ -5,11 +5,7 @@ import {
   useFetchMaxPriceQuery,
   useFetchMinPriceQuery
 } from '../../service/api';
-import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
-import {Route, Router} from 'react-router-dom';
-import {AppRoute} from '../../const/const';
-import MainScreen from './main-screen';
 import fetchMock from 'jest-fetch-mock';
 import {ReactNode} from 'react';
 import {Guitar} from '../../types/guitar';
@@ -28,8 +24,7 @@ type ProviderProps = {
 const wrapper = ({children}: ProviderProps):JSX.Element => (
   <Provider store={store}>{children}</Provider>
 );
-
-const history = createMemoryHistory();
+createMemoryHistory();
 const store = testStore;
 
 describe('Component: MainScreen', () => {
@@ -102,22 +97,5 @@ describe('Component: MainScreen', () => {
     await waitForNextUpdate({timeout: 5000});
     expect(result.current.isLoading).toBe(false);
     expect(result.current.currentData).toStrictEqual({response:fakeResponse,totalCount: 0});
-  });
-
-  it('should render correctly', () => {
-    render(
-      <Provider store={store}>
-        <Router history={history}>
-          <Route exact path={AppRoute.Root}>
-            <MainScreen/>
-          </Route>
-        </Router>
-      </Provider>);
-    expect(screen.getByText(/Каталог гитар/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Где купить?/i).length).toBe(2);
-    expect(screen.getByText(/О Компании?/i)).toBeInTheDocument();
-    expect(screen.getByText(/О нас/i)).toBeInTheDocument();
-    expect(screen.getByText(/Информация/i)).toBeInTheDocument();
-    expect(screen.getByText(/Контакты/i)).toBeInTheDocument();
   });
 });
