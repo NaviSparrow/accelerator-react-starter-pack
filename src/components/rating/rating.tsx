@@ -1,5 +1,5 @@
 import React from 'react';
-import {nanoid} from 'nanoid';
+// import {nanoid} from 'nanoid';
 
 const STARS_COUNT = 5;
 
@@ -15,7 +15,7 @@ function Rating({guitarRating}:RatingProps):JSX.Element {
       {starsArray.map((star) => {
         count++;
         return (
-          <svg width="12" height="11" aria-hidden="true" key={nanoid()}>
+          <svg width="12" height="11" aria-hidden="true" key={count}>
             <use xlinkHref={`#icon${count <= Math.floor(guitarRating) ? '-full-' : '-'}star`}>
             </use>
           </svg>
