@@ -5,6 +5,7 @@ import {useFetchGuitarsListQuery} from '../../service/api';
 import {useHistory, useLocation} from 'react-router-dom';
 import {AppRoute, INITIAL_GUITARS_COUNT, parseURLtoViewState, stringifyViewState} from '../../const/const';
 import Loader from '../loader/loader';
+
 export type Type = {
   acoustic?: string;
   electric?: string;
