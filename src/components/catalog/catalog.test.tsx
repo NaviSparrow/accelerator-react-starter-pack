@@ -1,6 +1,4 @@
 import {useFetchGuitarsListQuery} from '../../service/api';
-import {render, screen} from '@testing-library/react';
-import {Route, Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createMemoryHistory} from 'history';
 import Catalog from './catalog';
@@ -10,6 +8,8 @@ import {renderHook} from '@testing-library/react-hooks';
 import {Guitar} from '../../types/guitar';
 import {ReactNode} from 'react';
 import {testStore} from '../../store/store';
+import {Route, Router} from 'react-router-dom';
+import {render} from '@testing-library/react';
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -49,14 +49,13 @@ describe('Component: Catalog', () => {
   });
 
   it('should render correctly', () => {
-    render(
+    const view = render(
       <Provider store={store}>
         <Router history={history}>
           <Route render={() => <Catalog />}>
           </Route>
         </Router>
       </Provider>);
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
-
+    expect(view).toMatchSnapshot();
   });
 });
