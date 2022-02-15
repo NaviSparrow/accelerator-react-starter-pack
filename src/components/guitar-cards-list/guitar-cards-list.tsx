@@ -17,7 +17,7 @@ type GuitarCardsListProps = {
 const DEFAULT_PAGES_LIMIT = 3;
 const FIRST_PAGE = 1;
 
-const isNeedToSetFirstPage = (guitarsList: GuitarCardsListProps['guitarsList'], currentPage: string) => (guitarsList && guitarsList.response.length === 0) && currentPage !== FIRST_PAGE.toString();
+const isNeedToSetFirstPage = (guitarsList: GuitarCardsListProps['guitarsList'], currentPage: string) => (guitarsList && Array.isArray(guitarsList.response) && guitarsList.response.length === 0) && currentPage !== FIRST_PAGE.toString();
 
 function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListProps):JSX.Element {
   const [currentPage, setCurrentPage] = useState<string>(getInitialPageNumber(viewState));
@@ -61,7 +61,7 @@ function GuitarCardsList({guitarsList, viewState, onChangeURL}:GuitarCardsListPr
   return (
     <>
       <div className="cards catalog__cards">
-        {guitarsList && guitarsList.response.map((guitar) => (<GuitarCard key={guitar.id} guitarInfo={guitar} />))}
+        {guitarsList && Array.isArray(guitarsList.response) && guitarsList.response.map((guitar) => (<GuitarCard key={guitar.id} guitarInfo={guitar} />))}
       </div>
       <div className="pagination page-content__pagination">
         <ul className="pagination__list">
