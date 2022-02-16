@@ -10,7 +10,7 @@ function CartCountLink():JSX.Element {
   const getCartItemsCount = () => {
     const totalCount:number[] = [];
     cartItems.map((item) => totalCount.push(item.count));
-    return totalCount.reduce((previousValue, currentValue) => previousValue + currentValue);
+    return totalCount.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
   };
 
   return (

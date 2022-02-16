@@ -1,13 +1,13 @@
 import SearchBar from '../searchBar/searchBar';
 import {Link, useLocation} from 'react-router-dom';
 import {AppRoute} from '../../const/const';
-import {useSelector} from 'react-redux';
-import {getCartItems} from '../../store/cart-reducer/cart-reducer';
+// import {useSelector} from 'react-redux';
+// import {getCartItems} from '../../store/cart-reducer/cart-reducer';
 import CartCountLink from '../cart-count-link/cart-count-link';
 
 function Header(): JSX.Element {
   const location = useLocation();
-  const cartItems = useSelector(getCartItems);
+  // const cartItems = useSelector(getCartItems);
 
   return (
     <header className="header" id="header">
@@ -26,7 +26,7 @@ function Header(): JSX.Element {
           </ul>
         </nav>
         <SearchBar />
-        {cartItems.length !== 0 ? <CartCountLink /> : ''}
+        <CartCountLink />
       </div>
     </header>
   );
